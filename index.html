@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>TRY OUT TKA BAHASA INDONESIA 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+:root{
+  --biru-tua:#c2570a;
+  --biru:#e2711d;
+  --biru-muda:#fdf0e1;
+  --biru-muda2:#fbdcb8;
+  --biru-accent:#f2994a;
+  --putih:#ffffff;
+  --merah:#e05252;
+  --hijau:#3fb47a;
+  --kuning:#f0b429;
+  --abu:#7a8ba0;
+  --shadow:0 4px 16px rgba(194,87,10,0.15);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  font-family:'Poppins', 'Segoe UI', Tahoma, sans-serif;
+  background:linear-gradient(160deg, var(--biru-muda) 0%, var(--putih) 55%, var(--biru-muda2) 100%);
+  min-height:100vh;
+  color:#1c3550;
+}
+.screen{ display:none; min-height:100vh; }
+.screen.active{ display:flex; flex-direction:column; }
+
+/* ============ HEADER ============ */
+.app-header{
+  background:linear-gradient(90deg, var(--biru-tua), var(--biru));
+  color:#fff;
+  padding:18px 20px;
+  text-align:center;
+  box-shadow:var(--shadow);
+}
+.app-header h1{ font-size:20px; letter-spacing:1px; }
+.app-header p{ font-size:12px; opacity:0.9; margin-top:4px; }
+
+/* ============ LANDING / DATA DIRI ============ */
+#screen-start{ align-items:center; justify-content:center; padding:20px; }
+.start-card{
+  background:var(--putih);
+  border-radius:18px;
+  box-shadow:var(--shadow);
+  max-width:480px;
+  width:100%;
+  padding:30px 26px;
+  border:1px solid var(--biru-muda2);
+  animation:fadeUp .5s ease;
+}
+@keyframes fadeUp{ from{opacity:0; transform:translateY(16px);} to{opacity:1; transform:translateY(0);} }
+.start-card .badge{
+  background:var(--biru-muda);
+  color:var(--biru-tua);
+  display:inline-block;
+  padding:5px 14px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:14px;
+}
+.start-card h2{ color:var(--biru-tua); font-size:22px; margin-bottom:6px; }
+.start-card .desc{ color:var(--abu); font-size:13px; margin-bottom:22px; line-height:1.5; }
+.form-group{ margin-bottom:16px; }
+.form-group label{ display:block; font-size:13px; font-weight:600; color:var(--biru-tua); margin-bottom:6px; }
+.form-group input, .form-group select{
+  width:100%;
+  padding:12px 14px;
+  border:2px solid var(--biru-muda2);
+  border-radius:10px;
+  font-size:14px;
+  background:var(--biru-muda);
+  transition:.2s;
+  color:#1c3550;
+}
+.form-group input:focus, .form-group select:focus{
+  outline:none; border-color:var(--biru-accent); background:#fff;
+}
+.info-box{
+  background:var(--biru-muda);
+  border-left:4px solid var(--biru-accent);
+  border-radius:8px;
+  padding:12px 14px;
+  font-size:12px;
+  color:var(--biru-tua);
+  margin-bottom:20px;
+  line-height:1.6;
+}
+.btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  border:none; border-radius:12px; cursor:pointer;
+  font-weight:700; font-size:14px; padding:13px 22px;
+  transition:.2s; width:100%;
+}
+.btn-primary{ background:linear-gradient(90deg, var(--biru), var(--biru-accent)); color:#fff; box-shadow:0 4px 12px rgba(226,113,29,0.35);}
+.btn-primary:hover{ transform:translateY(-2px); box-shadow:0 6px 16px rgba(226,113,29,0.45); }
+.btn-primary:disabled{ background:#c3cfdb; cursor:not-allowed; transform:none; box-shadow:none; }
+.btn-secondary{ background:var(--biru-muda); color:var(--biru-tua); border:2px solid var(--biru-muda2); }
+.btn-secondary:hover{ background:var(--biru-muda2); }
+.btn-outline{ background:transparent; color:var(--biru); border:2px solid var(--biru); }
+.btn-danger{ background:linear-gradient(90deg,#e05252,#f07070); color:#fff; }
+
+/* ============ QUIZ SCREEN ============ */
+#screen-quiz{ padding-bottom:20px; }
+.quiz-topbar{
+  position:sticky; top:0; z-index:50;
+  background:linear-gradient(90deg, var(--biru-tua), var(--biru));
+  color:#fff;
+  padding:12px 18px;
+  display:flex; align-items:center; justify-content:space-between;
+  box-shadow:var(--shadow);
+  flex-wrap:wrap; gap:10px;
+}
+.quiz-topbar .peserta-info{ font-size:12px; line-height:1.4; }
+.quiz-topbar .peserta-info b{ font-size:14px; }
+.timer-box{
+  background:rgba(255,255,255,0.15);
+  border-radius:10px;
+  padding:8px 16px;
+  text-align:center;
+  min-width:110px;
+}
+.timer-box .label{ font-size:10px; opacity:.85; letter-spacing:1px;}
+.timer-box .time{ font-size:22px; font-weight:800; font-variant-numeric:tabular-nums; }
+.timer-box.warning{ background:rgba(224,82,82,0.35); animation:pulse 1s infinite; }
+@keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.6;} }
+
+.quiz-body{
+  display:flex; gap:18px; padding:18px; max-width:1100px; margin:0 auto; width:100%;
+  align-items:flex-start; flex-wrap:wrap;
+}
+.nav-panel{
+  background:var(--putih);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:16px;
+  width:260px;
+  flex-shrink:0;
+  border:1px solid var(--biru-muda2);
+  transition:width .3s ease, padding .3s ease, opacity .25s ease, margin .3s ease, border .3s ease;
+  overflow:hidden;
+}
+.nav-panel.collapsed{
+  width:0; padding:0; margin:0; border:none; opacity:0;
+  pointer-events:none;
+}
+.nav-panel-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.nav-panel-head h3{ margin-bottom:0; }
+.btn-collapse{
+  background:var(--biru-muda); border:1px solid var(--biru-muda2); color:var(--biru-tua);
+  border-radius:8px; cursor:pointer; font-size:11px; font-weight:700; padding:5px 9px;
+  white-space:nowrap; flex-shrink:0;
+}
+.btn-collapse:hover{ background:var(--biru-muda2); }
+
+/* Tab mengambang untuk menampilkan kembali navigasi saat disembunyikan */
+.nav-reopen-tab{
+  display:none; position:fixed; left:0; top:50%; transform:translateY(-50%);
+  background:linear-gradient(180deg, var(--biru-tua), var(--biru));
+  color:#fff; border:none; border-radius:0 12px 12px 0;
+  padding:14px 8px; cursor:pointer; z-index:60; box-shadow:var(--shadow);
+  font-size:11px; font-weight:700; writing-mode:vertical-rl; text-orientation:mixed;
+  letter-spacing:1px;
+}
+.nav-reopen-tab.visible{ display:block; }
+.nav-reopen-tab:hover{ padding-left:11px; }
+.nav-panel h3{ font-size:13px; color:var(--biru-tua); margin-bottom:10px; }
+.legend{ display:flex; flex-wrap:wrap; gap:8px; font-size:10px; margin-bottom:12px; }
+.legend span{ display:flex; align-items:center; gap:4px; color:var(--abu); }
+.legend i{ width:10px; height:10px; border-radius:3px; display:inline-block; }
+.nav-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+.nav-btn{
+  aspect-ratio:1; border-radius:8px; border:none; cursor:pointer;
+  font-size:12px; font-weight:700; color:#fff;
+  background:var(--merah);
+  transition:.15s;
+  position:relative;
+}
+.nav-btn:hover{ transform:scale(1.08); }
+.nav-btn.answered{ background:var(--hijau); }
+.nav-btn.doubt{ background:var(--kuning); color:#5a4400; }
+.nav-btn.current{ box-shadow:0 0 0 3px var(--biru-tua); }
+.nav-summary{ margin-top:14px; font-size:11px; color:var(--abu); line-height:1.8; }
+.nav-summary b{ color:var(--biru-tua); }
+
+.question-panel{
+  background:var(--putih);
+  border-radius:16px;
+  box-shadow:var(--shadow);
+  padding:22px;
+  flex:1;
+  min-width:280px;
+  border:1px solid var(--biru-muda2);
+}
+.q-meta{ display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:8px;}
+.q-number-badge{
+  background:var(--biru-tua); color:#fff; font-weight:800; font-size:13px;
+  padding:6px 14px; border-radius:20px;
+}
+.q-type-badge{
+  background:var(--biru-muda); color:var(--biru-tua); font-size:11px; font-weight:700;
+  padding:6px 12px; border-radius:20px; border:1px solid var(--biru-muda2);
+}
+.stimulus-box{
+  background:var(--biru-muda);
+  border:1px solid var(--biru-muda2);
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:16px;
+  font-size:17px;
+  line-height:2;
+  color:#1c3550;
+  white-space:pre-line;
+}
+.stimulus-box .stim-label{
+  font-size:11px; font-weight:700; color:var(--biru); margin-bottom:8px; display:block; letter-spacing:.5px;
+}
+.instruksi{ font-size:12px; color:var(--abu); font-style:italic; margin-bottom:10px; }
+.q-text{ font-size:19px; line-height:1.9; color:#16314f; margin-bottom:18px; font-weight:600; white-space:pre-line; }
+.options{ display:flex; flex-direction:column; gap:10px; }
+.option{
+  display:flex; align-items:center; gap:12px;
+  padding:13px 16px;
+  border:2px solid var(--biru-muda2);
+  border-radius:12px;
+  cursor:pointer;
+  transition:.15s;
+  background:#fff;
+}
+.option:hover{ background:var(--biru-muda); border-color:var(--biru-accent); }
+.option.selected{ background:var(--biru-muda2); border-color:var(--biru); }
+.option .opt-mark{
+  width:26px; height:26px; border-radius:50%; border:2px solid var(--biru-accent);
+  display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:800;
+  color:var(--biru-tua); flex-shrink:0; background:#fff;
+}
+.option.selected .opt-mark{ background:var(--biru); color:#fff; }
+.option.checkbox .opt-mark{ border-radius:6px; }
+.option .opt-text{ font-size:17px; color:#1c3550; }
+
+.kategori-table{ width:100%; border-collapse:collapse; margin-top:6px; }
+.kategori-table tr{ border-bottom:1px solid var(--biru-muda2); }
+.kategori-table td{ padding:12px 8px; vertical-align:middle; }
+.kategori-table td.stmt{ font-size:16px; color:#1c3550; }
+.kategori-choice{ display:flex; gap:8px; justify-content:flex-end; }
+.kc-btn{
+  padding:8px 16px; border-radius:8px; border:2px solid var(--biru-muda2);
+  background:#fff; cursor:pointer; font-size:12px; font-weight:700; color:var(--abu);
+  transition:.15s;
+}
+.kc-btn.benar.active{ background:var(--hijau); color:#fff; border-color:var(--hijau); }
+.kc-btn.salah.active{ background:var(--merah); color:#fff; border-color:var(--merah); }
+
+.q-nav-buttons{ display:flex; justify-content:space-between; margin-top:22px; gap:10px; flex-wrap:wrap; }
+.q-nav-buttons .left-group, .q-nav-buttons .right-group{ display:flex; gap:10px; }
+.q-nav-buttons .btn{ width:auto; padding:11px 18px; }
+
+/* ============ RESULT SCREEN ============ */
+#screen-result{ align-items:center; justify-content:center; padding:30px 16px; }
+.result-card{
+  background:var(--putih); border-radius:20px; box-shadow:var(--shadow);
+  max-width:520px; width:100%; padding:36px 28px; text-align:center;
+  border:1px solid var(--biru-muda2);
+}
+.result-card .trophy{ font-size:52px; margin-bottom:8px; }
+.result-card h2{ color:var(--biru-tua); font-size:22px; margin-bottom:4px; }
+.result-card .sub{ color:var(--abu); font-size:13px; margin-bottom:24px; }
+.score-circle{
+  width:150px; height:150px; border-radius:50%;
+  background:conic-gradient(var(--biru) calc(var(--pct)*1%), var(--biru-muda2) 0);
+  display:flex; align-items:center; justify-content:center;
+  margin:0 auto 22px auto; position:relative;
+}
+.score-circle::before{
+  content:''; position:absolute; width:118px; height:118px; background:#fff; border-radius:50%;
+}
+.score-circle .score-txt{ position:relative; z-index:2; font-size:32px; font-weight:800; color:var(--biru-tua); }
+.result-stats{ display:flex; justify-content:center; gap:22px; margin-bottom:26px; flex-wrap:wrap; }
+.result-stats div{ text-align:center; }
+.result-stats .num{ font-size:20px; font-weight:800; }
+.result-stats .lbl{ font-size:11px; color:var(--abu); }
+.result-stats .benar .num{ color:var(--hijau); }
+.result-stats .salah .num{ color:var(--merah); }
+.result-actions{ display:flex; flex-direction:column; gap:12px; }
+
+footer.foot-note{ text-align:center; font-size:11px; color:var(--abu); padding:16px; }
+
+/* ============ PDF LOADING OVERLAY ============ */
+.pdf-overlay{
+  display:none; position:fixed; inset:0; z-index:999;
+  background:rgba(28,53,80,0.55); align-items:center; justify-content:center;
+}
+.pdf-overlay.active{ display:flex; }
+.pdf-overlay-box{
+  background:#fff; border-radius:16px; padding:28px 36px; text-align:center;
+  box-shadow:var(--shadow); max-width:280px;
+}
+.pdf-spinner{
+  width:42px; height:42px; border:4px solid var(--biru-muda2); border-top-color:var(--biru);
+  border-radius:50%; margin:0 auto 14px auto; animation:spin 0.8s linear infinite;
+}
+@keyframes spin{ to{ transform:rotate(360deg); } }
+.pdf-overlay-box p{ font-size:13px; color:var(--biru-tua); font-weight:600; }
+.pdf-overlay-box span{ font-size:11px; color:var(--abu); }
+
+/* ============ AREA RENDER PDF — TERSEMBUNYI DARI TAMPILAN ============ */
+#pdf-render-temp{
+  position:fixed; left:-99999px; top:0; background:#ffffff;
+  font-family:'Poppins','Segoe UI',sans-serif; color:#1c3550;
+}
+.pdf-cover{ padding:4px; }
+.pdf-cover .pdf-band{ background:#c2570a; color:#fff; padding:18px; border-radius:6px; text-align:center; }
+.pdf-cover .pdf-band h1{ font-size:22px; margin-bottom:4px; }
+.pdf-cover .pdf-band h2{ font-size:16px; font-weight:500; margin-bottom:8px; }
+.pdf-cover .pdf-band p{ font-size:12px; opacity:0.9; }
+.pdf-cover .pdf-petunjuk{ font-size:13px; line-height:1.9; padding:16px 4px 4px 4px; }
+.pdf-cover .pdf-petunjuk b{ color:#c2570a; }
+.pdf-stimulus-block{ background:#fdf0e1; border:1px solid #fbdcb8; border-radius:8px; padding:14px 16px; }
+.pdf-stimulus-block .pdf-stim-title{ font-size:12px; font-weight:700; color:#e2711d; margin-bottom:8px; display:block; }
+.pdf-stimulus-block .pdf-stim-text{ font-size:19px; line-height:2; white-space:pre-line; }
+.pdf-question-block{ padding:6px 2px; }
+.pdf-question-block .pdf-q-top{ display:flex; gap:10px; align-items:flex-start; margin-bottom:4px; }
+.pdf-question-block .pdf-q-num{ background:#c2570a; color:#fff; font-weight:800; font-size:13px; border-radius:14px; padding:3px 12px; flex-shrink:0; }
+.pdf-question-block .pdf-q-instr{ font-size:11px; font-style:italic; color:#7a8ba0; padding-top:4px; }
+.pdf-question-block .pdf-q-text{ font-size:20px; line-height:1.9; font-weight:600; margin:8px 0 12px 0; white-space:pre-line; }
+.pdf-opt{ display:flex; gap:10px; padding:9px 12px; border:1.5px solid #fbdcb8; border-radius:8px; margin-bottom:8px; align-items:center; }
+.pdf-opt .pdf-opt-mark{ width:22px; height:22px; border-radius:50%; border:1.5px solid #f2994a; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#c2570a; flex-shrink:0; }
+.pdf-opt .pdf-opt-text{ font-size:19px; }
+.pdf-kat-row{ display:flex; justify-content:space-between; align-items:center; padding:9px 4px; border-bottom:1px solid #fbdcb8; gap:14px; }
+.pdf-kat-row .pdf-kat-text{ font-size:17px; flex:1; }
+.pdf-kat-row .pdf-kat-choice{ font-size:11px; color:#7a8ba0; white-space:nowrap; font-weight:700; }
+.pdf-kunci-title{ font-size:20px; font-weight:800; color:#c2570a; text-align:center; padding:10px 0 16px 0; }
+.pdf-kunci-grid{ display:grid; grid-template-columns:1fr 1fr; gap:0 24px; font-size:13px; }
+.pdf-kunci-item{ display:flex; justify-content:space-between; padding:5px 4px; border-bottom:1px solid #fdf0e1; }
+.pdf-kunci-item b{ color:#c2570a; }
+@media(max-width:640px){
+  .quiz-body{ flex-direction:column; }
+  .nav-panel{ width:100%; order:2; }
+  .question-panel{ order:1; }
+  .q-text, .option .opt-text{ font-size:16px; }
+}
+
+/* ============ PROTEKSI ANTI COPY-PASTE SOAL ============ */
+#screen-quiz .question-panel{
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -ms-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+}
+/* Input pada layar data diri tetap bisa dipilih/diketik normal */
+#screen-start, #screen-start input, #screen-start select{
+  -webkit-user-select:text;
+  -moz-user-select:text;
+  -ms-user-select:text;
+  user-select:text;
+}
+</style>
+</head>
+<body>
+
+<!-- ================= SCREEN 1: DATA DIRI ================= -->
+<div class="screen active" id="screen-start">
+  <div class="app-header" style="width:100%;">
+    <h1>📖 TRY OUT TKA BAHASA INDONESIA 2026</h1>
+    <p>Tes Kemampuan Akademik &mdash; Simulasi Ujian Berbasis Web</p>
+  </div>
+  <div style="flex:1; display:flex; align-items:center; justify-content:center; padding:24px 16px;">
+    <div class="start-card">
+      <span class="badge">BAHASA INDONESIA &bull; SMA/MA</span>
+      <h2>Formulir Data Peserta</h2>
+      <p class="desc">Lengkapi data diri Anda dengan benar sebelum memulai try out. Data ini akan tercantum pada sertifikat hasil try out.</p>
+
+      <div class="form-group">
+        <label>NAMA LENGKAP</label>
+        <input type="text" id="input-nama" placeholder="Contoh: Ahmad Fadillah" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label>NISN</label>
+        <input type="text" id="input-nisn" placeholder="Contoh: 0051234567" autocomplete="off" inputmode="numeric">
+      </div>
+      <div class="form-group">
+        <label>ASAL SEKOLAH</label>
+        <input type="text" id="input-sekolah" placeholder="Contoh: SMAN 2 Luwu Utara" autocomplete="off">
+      </div>
+
+      <div class="info-box">
+        📋 <b>Ketentuan Try Out:</b><br>
+        • Jumlah soal: 35 butir (Soal Literasi Membaca &amp; Kaidah Bahasa)<br>
+        • Durasi: 75 menit (waktu berjalan otomatis &amp; tidak dapat dihentikan)<br>
+        • Bentuk soal: Pilihan Ganda, Pilihan Ganda Kompleks (jawaban bisa lebih dari satu), dan Pilihan Ganda Kompleks Kategori (Benar/Salah)<br>
+        • Beberapa soal berupa Soal Grup yang menggunakan satu teks bacaan yang sama<br>
+        • Jika waktu habis, soal akan tertutup otomatis dan sistem langsung menampilkan hasil<br>
+        • Pastikan koneksi perangkat stabil selama mengerjakan
+      </div>
+
+      <button class="btn btn-primary" id="btn-mulai" disabled onclick="mulaiTryOut()">🚀 MULAI TRY OUT</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SCREEN 2: QUIZ ================= -->
+<div class="screen" id="screen-quiz">
+  <div class="quiz-topbar">
+    <div class="peserta-info">
+      <b id="tb-nama">-</b><br>
+      NISN: <span id="tb-nisn">-</span> &bull; <span id="tb-sekolah">-</span>
+    </div>
+    <div class="timer-box" id="timer-box">
+      <div class="label">SISA WAKTU</div>
+      <div class="time" id="timer-display">75:00</div>
+    </div>
+  </div>
+
+  <div class="quiz-body">
+    <div class="nav-panel" id="nav-panel">
+      <div class="nav-panel-head">
+        <h3>NAVIGASI SOAL</h3>
+        <button class="btn-collapse" onclick="toggleNavPanel()">◀ Sembunyikan</button>
+      </div>
+      <div class="legend">
+        <span><i style="background:var(--merah)"></i>Belum dikerjakan</span>
+        <span><i style="background:var(--hijau)"></i>Sudah dikerjakan</span>
+        <span><i style="background:var(--kuning)"></i>Ragu-ragu</span>
+      </div>
+      <div class="nav-grid" id="nav-grid"></div>
+      <div class="nav-summary">
+        Terjawab: <b id="sum-terjawab">0</b>/35<br>
+        Ragu-ragu: <b id="sum-ragu">0</b><br>
+        Belum dijawab: <b id="sum-belum">35</b>
+      </div>
+      <button class="btn btn-danger" style="margin-top:14px;" onclick="konfirmasiKirim()">📤 KIRIM JAWABAN</button>
+    </div>
+
+    <div class="question-panel">
+      <div class="q-meta">
+        <span class="q-number-badge" id="q-number-badge">SOAL 1/35</span>
+        <button class="btn-collapse" id="btn-show-nav" onclick="toggleNavPanel()" style="display:none;">☰ Tampilkan Navigasi</button>
+        <span class="q-type-badge" id="q-type-badge">PILIHAN GANDA</span>
+      </div>
+      <div id="stimulus-container"></div>
+      <p class="instruksi" id="q-instruksi">Pilih satu jawaban yang paling tepat!</p>
+      <div class="q-text" id="q-text"></div>
+      <div id="q-body"></div>
+
+      <div class="q-nav-buttons">
+        <div class="left-group">
+          <button class="btn btn-secondary" onclick="prevQuestion()">⬅ Sebelumnya</button>
+          <button class="btn btn-outline" id="btn-ragu" onclick="toggleRagu()">🤔 Tandai Ragu-ragu</button>
+        </div>
+        <div class="right-group">
+          <button class="btn btn-primary" onclick="nextQuestion()">Selanjutnya ➡</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab mengambang untuk menampilkan kembali navigasi -->
+  <button class="nav-reopen-tab" id="nav-reopen-tab" onclick="toggleNavPanel()">☰ NAVIGASI SOAL</button>
+</div>
+
+<!-- ================= SCREEN 3: RESULT ================= -->
+<div class="screen" id="screen-result">
+  <div class="result-card">
+    <div class="trophy">🏆</div>
+    <h2>Try Out Selesai!</h2>
+    <p class="sub" id="result-nama-sub">Kerja bagus! Berikut hasil try out kamu.</p>
+
+    <div class="score-circle" id="score-circle" style="--pct:0;">
+      <div class="score-txt" id="score-txt">0</div>
+    </div>
+
+    <div class="result-stats">
+      <div class="benar"><div class="num" id="stat-benar">0</div><div class="lbl">BENAR</div></div>
+      <div class="salah"><div class="num" id="stat-salah">0</div><div class="lbl">SALAH</div></div>
+      <div><div class="num" id="stat-waktu">0:00</div><div class="lbl">WAKTU DIPAKAI</div></div>
+    </div>
+
+    <div class="result-actions">
+      <button class="btn btn-primary" onclick="downloadSertifikat()">📜 DOWNLOAD SERTIFIKAT HASIL TRY OUT</button>
+      <button class="btn btn-outline" onclick="downloadSoalPDF()">📄 DOWNLOAD SOAL TRY OUT (PDF)</button>
+      <button class="btn btn-secondary" onclick="location.reload()">🔄 Ulangi Try Out</button>
+    </div>
+  </div>
+</div>
+
+<footer class="foot-note">SMAN 2 Luwu Utara &bull; Try Out TKA Bahasa Indonesia 2026 &bull; Dibuat untuk simulasi latihan siswa</footer>
+
+<!-- Overlay proses pembuatan PDF -->
+<div class="pdf-overlay" id="pdf-overlay">
+  <div class="pdf-overlay-box">
+    <div class="pdf-spinner"></div>
+    <p>Sedang membuat PDF...</p>
+    <span>Mohon tunggu, sedang menyusun naskah soal</span>
+  </div>
+</div>
+
+<script>
+/* =======================================================================
+   DATA BANK SOAL — 35 SOAL
+   ======================================================================= */
+const QUESTIONS = [
+{no:1, no_in_group:1, group:"g1", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Bacalah teks berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Tradisi Buwuhan: Antara Gotong Royong dan Utang Piutang
+
+Tradisi buwuhan merupakan bagian dari budaya masyarakat Jawa, khususnya di kota-kota besar seperti Surabaya. Tradisi ini dilakukan ketika ada acara penting seperti pernikahan atau khitanan yang diadakan di daerah tersebut. Buwuhan merujuk pada kegiatan memberi bantuan, baik berupa barang, uang, maupun tenaga kepada seseorang yang sedang mengadakan hajatan, atau bisa juga disebut sebagai kegiatan menyumbang. Tradisi ini mencerminkan nilai gotong royong dan solidaritas sosial karena keluarga dan tetangga saling bahu-membahu dalam membantu sesama.
+
+Namun, praktik buwuhan tidak lepas dari unsur pertukaran atau dipandang sebagai utang. Masyarakat meyakini bahwa segala bentuk bantuan yang diberikan akan kembali dalam bentuk yang setara ketika si pemberi mengadakan hajatan serupa. Hal ini menyebabkan buwuhan tidak lagi dipandang murni sebagai hibah atau sedekah, tetapi sebagai bentuk "utang tidak tertulis" yang menimbulkan kewajiban moral untuk membalas.
+
+Dalam praktiknya, buwuhan memang meringankan beban tuan rumah, tetapi dapat menimbulkan tekanan psikologis bagi penerima bantuan. Rasa malu dan kekhawatiran kehilangan harga diri mendorong sebagian orang untuk berutang demi mengembalikan buwuhan. Hal ini menyebabkan terbaginya cara pandang terhadap buwuhan. Ada yang melihatnya sebagai bentuk tolong-menolong, tetapi ada juga yang justru menganggapnya menjadi sistem utang piutang berbasis sosial. Sebagian pihak berpendapat bahwa buwuhan adalah hibah karena tujuannya adalah untuk membantu. Namun, apabila ada keharusan pengembalian, maka secara hukum dan etika, buwuhan telah bergeser dari semangat gotong royong menjadi sebuah kewajiban ekonomi yang membebani. Oleh karena itu, pemahaman masyarakat terhadap tradisi buwuhan perlu diluruskan agar nilai luhur tolong-menolong tetap terjaga tanpa menimbulkan beban yang tidak perlu.
+
+Sumber: Rachmawati, S. A., & Anwar, M. K. (2021). Budaya dan Tradisi Buwuh sebagai Utang Piutang dalam Adat Pernikahan di Kota Surabaya. Jurnal Ekonomika dan Bisnis Islam, 4(3), hl 69-83.`,
+ text:"Apa makna kata hajatan pada teks tersebut?",
+ options:[
+   {id:"a",text:"Kegiatan kerja bakti membersihkan lingkungan sekitar."},
+   {id:"b",text:"Pertemuan rutin warga untuk membahas masalah lingkungan."},
+   {id:"c",text:"Diskusi keluarga besar untuk menentukan pembagian warisan."},
+   {id:"d",text:"Permohonan bantuan yang dilakukan tuan rumah kepada tetangga."},
+   {id:"e",text:"Acara atau pesta yang diadakan untuk memperingati hal penting."}
+ ],
+ correct:"e"},
+
+{no:2, no_in_group:2, group:"g1", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Manakah gagasan yang mendukung ide pokok bahwa buwuhan adalah bentuk utang?",
+ options:[
+   {id:"a",text:"Praktik buwuhan disertai dengan perjanjian utang piutang secara tertulis."},
+   {id:"b",text:"Buwuhan disertai kesepakatan untuk selalu memberi lebih dari yang diterima."},
+   {id:"c",text:"Bentuk buwuhan dapat berupa sedekah atau hibah yang harus dibayar kembali."},
+   {id:"d",text:"Buwuhan dilakukan oleh tetangga dan kerabat sebagai bentuk pertukaran solidaritas."},
+   {id:"e",text:"Penerima buwuhan merasa harus mengembalikan bantuan yang diterima di kemudian hari."}
+ ],
+ correct:"e"},
+
+{no:3, no_in_group:3, group:"g1", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Hubungan makna paragraf kedua dan ketiga adalah ....",
+ options:[
+   {id:"a",text:"perbedaan jenis buwuhan berdasarkan jenis acara yang dilangsungkan"},
+   {id:"b",text:"penjelasan sebab dan akibat dari perbedaan pandangan mengenai buwuhan"},
+   {id:"c",text:"penjelasan dampak buruk dari adanya pandangan buwuhan sebagai sedekah"},
+   {id:"d",text:"perbedaan tata cara buwuhan pada beberapa kelurahan atau desa di Surabaya"},
+   {id:"e",text:"penjelasan hubungan hukum agama dengan pengertian masyarakat terhadap buwuhan"}
+ ],
+ correct:"b"},
+
+{no:4, no_in_group:4, group:"g1", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Perhatikan kalimat berikut, lalu pilih jawaban yang paling tepat!",
+ text:`Perhatikan kalimat berikut:\n“Oleh karena itu, pemahaman masyarakat terhadap tradisi buwuhan perlu diluruskan agar nilai luhur tolong-menolong tetap terjaga tanpa menimbulkan beban yang tidak perlu.”\nKalimat tersebut dapat menjadi kesimpulan yang sesuai teks argumentasi tersebut karena ....`,
+ options:[
+   {id:"a",text:"merangkum sebab-akibat dari adanya tradisi buwuhan di wilayah Surabaya"},
+   {id:"b",text:"menyimpulkan ketidaksetujuan masyarakat terhadap penghapusan tradisi buwuhan"},
+   {id:"c",text:"menyangkal pandangan negatif yang ada di masyarakat untuk pelestarian buwuhan"},
+   {id:"d",text:"menyimpulkan berbagai pandangan masyarakat terhadap konsep buwuhan"},
+   {id:"e",text:"menggarisbawahi solusi untuk melestarikan tradisi buwuhan di seluruh wilayah Jawa"}
+ ],
+ correct:"d"},
+
+{no:5, no_in_group:1, group:"g2", topic:"literasi-naratif", type:"pg",
+ instruksi:"Bacalah teks cerita berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Layur, Teruslah Berlayar
+
+"Bapak, pulanglah," lirih Layur berharap. Ini hari keenam. Tiga hari adalah waktu terlama nelayan berada di laut. Dengan susah payah, Layur berpindah duduk ke dalam sebuah perahu tua. Penyangga kedua kaki Layur yang tak utuh ia letakkan di sampingnya.
+
+"Jangan-jangan..."
+
+"Tidak ... Aku tidak boleh berpikiran buruk. Bapak pasti pulang dengan selamat. Aku akan tetap menunggunya di sini sambil berdoa."
+
+Layur masih ingat masa-masa dulu, ketika Bapak berlayar pada malam hari dan keesokan harinya sudah merapat kembali di pantai dengan membawa ikan berlimpah.
+
+"Ayo! Siapa mau udang?" panggil Bapak. Layur berlari kencang bersama teman-temannya. Namun, itu adalah kenangan sepuluh tahun silam. Kini, udang dan ikan kecil adalah anugerah besar. Itu pun harus dijaring di tengah laut.
+
+Layur ingat betul, Bapak adalah pembuat bondet paling disegani, juga berpengaruh di dusun. Setiap hari, nelayan silih berganti datang ke rumah memesan bondet. Hasil panen ikan berlimpah. Tinggal melemparkan bondet ke dalam laut dan ... bum! Berkuintal-kuintal ikan terapung tinggal diserok menggunakan jaring.
+
+Sampai suatu ketika ...
+
+DUAAAR!
+
+Separuh rumah Layur luluh lantak karena simpanan bondet di gudang meledak. Ledakan bondet di gudang tak hanya merusak rumah tetapi juga mencelakai anak semata wayang. Ia berteriak minta tolong, menepuk-nepuk dadanya, dan menangis. Itulah titik balik yang amat disesali Bapak. Sejak itu, Bapak meninggalkan usaha pembuatan bondet. Demikian pula dengan warga Dusun Prau tempat mereka berdiam berangsur-angsur meninggalkan cara menangkap ikan dengan bondet.
+
+Lamat-lamat terlihat kibaran layar bercorak biru. Layur beringsut menuruni perahu tempatnya duduk. Lambaian tangan bapaknya semakin jelas dan semakin dekat.
+
+"Bapak dari mana? Bapak sudah tiga hari telat pulang!" Seru Layur kesal. Matanya berkaca-kaca, menahan rindu, dan cemas.
+
+Karya Anang YB
+
+Daftar Istilah:
+Bondet: istilah lokal yang merujuk pada bahan peledak rakitan, sering disebut juga bom ikan.
+
+Sumber: https://buku.kemdikbud.go.id/katalog/layur-tetaplah-berlayar (dengan pengubahan)`,
+ text:"Berdasarkan teks tersebut, bagaimana sifat yang dimiliki oleh Layur?",
+ options:[
+   {id:"a",text:"Nekat dan optimis"},
+   {id:"b",text:"Mudah cemas dan tabah"},
+   {id:"c",text:"Penuh harap dan kasih sayang"},
+   {id:"d",text:"Suka menyendiri dan tegas"},
+   {id:"e",text:"Cepat panik dan menyalahkan keadaan"}
+ ],
+ correct:"b"},
+
+{no:6, no_in_group:2, group:"g2", topic:"literasi-naratif", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Apa yang menyebabkan Layur kesal kepada Bapak?",
+ options:[
+   {id:"a",text:"Tidak pamit kepada Layur saat hendak berlayar"},
+   {id:"b",text:"Tidak membawa banyak ikan dari laut"},
+   {id:"c",text:"Tidak setuju Layur menunggu terlalu lama di pantai"},
+   {id:"d",text:"Tidak kunjung pulang setelah enam hari melaut"},
+   {id:"e",text:"Tidak menepati janjinya untuk pulang tepat waktu ketika melaut"}
+ ],
+ correct:"e"},
+
+{no:7, no_in_group:3, group:"g2", topic:"literasi-naratif", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Bagaimana kisah yang sesuai untuk menutup cerita Layur merasa lega pada cerita tersebut?",
+ options:[
+   {id:"a",text:"Bapak meminta maaf pada Layur dan menceritakan penyebabnya pulang terlambat"},
+   {id:"b",text:"Bapak membimbing Layur pulang dan berjanji untuk tidak pulang terlambat lagi"},
+   {id:"c",text:"Bapak memeluk Layur dan merasa senang karena akhirnya ia bisa bertemu putrinya kembali"},
+   {id:"d",text:"Layur membereskan sampan dan memberikan hasil tangkapan yang tidak seberapa kepada Bapak"},
+   {id:"e",text:"Layur berterima kasih kepada Bapak karena telah menunggunya pulang dari melaut berhari-hari"}
+ ],
+ correct:"a"},
+
+{no:8, no_in_group:4, group:"g2", topic:"literasi-naratif", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Bagaimana reaksi yang ditunjukkan oleh Bapak ketika rumahnya luluh lantak dan bondet buatannya melukai Layur?",
+ options:[
+   {id:"a",text:"Merasa trauma dan membutuhkan waktu untuk menyendiri"},
+   {id:"b",text:"Menunjukkan respons yang biasa seperti tidak terjadi apa-apa"},
+   {id:"c",text:"Sangat terkejut dan sungguh menyesal atas apa yang dilakukan"},
+   {id:"d",text:"Marah terhadap orang lain dan merasa panik yang luar biasa"},
+   {id:"e",text:"Bingung dan berusaha mencerna terhadap apa yang telah terjadi"}
+ ],
+ correct:"c"},
+
+{no:9, no_in_group:1, group:"g3", topic:"literasi-naratif", type:"pg",
+ instruksi:"Bacalah teks cerita berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Pantai Bersih Tanpa Sampah
+
+Di sebuah daerah wisata yang terkenal dengan pantainya yang indah, pemerintah setempat gencar mengampanyekan "Pantai Bersih Tanpa Sampah." Spanduk dan papan peringatan terpampang di berbagai sudut. Namun, kenyataannya seringkali berbeda.
+
+Suatu sore, Pak Wayan, seorang nelayan tua yang sudah puluhan tahun melaut, sedang membersihkan jaringnya di tepi pantai. Di sampingnya, sekelompok turis muda asyik berpose untuk berfoto. Mereka mengenakan topi pantai yang modis, kacamata hitam, dan membawa botol minum berwarna-warni.
+
+"Wah, pantainya bersih banget ya, guys!" seru salah satu turis sambil memegang ponselnya. "Pas banget buat konten liburan ramah lingkungan!"
+
+Temannya menimpali, "Iya! Nanti caption-nya 'Menikmati keindahan alam tanpa jejak, menjaga bumi kita tercinta!'"
+
+Setelah puas berfoto dari berbagai sudut dengan beragam filter, mereka beranjak pergi. Namun mereka meninggalkan botol minum plastik kosong, bungkus keripik, dan beberapa puntung rokok yang disembunyikan di balik semak-semak. Mereka bahkan tidak berusaha mencari tempat sampah yang hanya berjarak beberapa meter.
+
+Pak Wayan hanya bisa menggelengkan kepala. Ia berjalan mendekat dan memungut sampah-sampah itu satu per satu. Ia sudah terbiasa dengan pemandangan ini. Para turis datang untuk menikmati keindahan, berfoto, membuat konten, lalu pergi meninggalkan "kenangan" dalam bentuk sampah.
+
+Tak lama kemudian, seorang petugas kebersihan berseragam oranye datang dengan sapu dan karung. "Pak Wayan, sudah banyak lagi ya sampahnya?" tanyanya sambil menghela napas.
+
+"Sudah biasa, Nak," jawab Pak Wayan. "Ini namanya 'sampah estetik'. Cuma bagus di foto, tapi busuk di mata dan bau di hidung."
+
+Petugas itu tersenyum masam. "Iya, Pak. Kata mereka peduli lingkungan, tapi pedulinya cuma di caption media sosial."
+
+Malam harinya, di akun media sosial Pak Wayan - yang diajari cucunya - ia melihat foto-foto pantai yang diunggah para turis tadi. Pantai tampak bersih sempurna, dihiasi filter matahari terbenam yang memukau. Ia membaca caption-nya: "Surgaku, jangan kau kotori!"
+
+Pak Wayan hanya bisa tersenyum getir. Sepertinya, slogan "Pantai Bersih Tanpa Sampah" itu hanya berlaku untuk kamera dan media sosial. Sementara di balik layar, jejak yang ditinggalkan justru lebih nyata dan memprihatinkan daripada gambar yang dipamerkan.`,
+ text:"Manakah urutan peristiwa berikut yang paling sesuai dengan isi teks?",
+ options:[
+   {id:"a",text:"Pak Wayan melihat foto turis di media sosial → petugas kebersihan datang → turis membuat konten"},
+   {id:"b",text:"Turis berfoto dan membuat konten → Pak Wayan memungut sampah → petugas kebersihan datang"},
+   {id:"c",text:"Pemerintah mengampanyekan kebersihan → Pak Wayan melihat foto turis → petugas kebersihan datang"},
+   {id:"d",text:"Petugas kebersihan datang → turis membuat konten di media sosial → Pak Wayan memungut sampah"},
+   {id:"e",text:"Pak Wayan memungut sampah → turis membuat konten → pemerintah mengampanyekan kebersihan"}
+ ],
+ correct:"b"},
+
+{no:10, no_in_group:2, group:"g3", topic:"literasi-naratif", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Manakah relevansi paling kuat antara sindiran dalam teks dengan realitas kehidupan sehari-hari, terutama terkait kesadaran lingkungan dan pencitraan?",
+ options:[
+   {id:"a",text:"Kritik terhadap kampanye \"Pantai Bersih\" yang hanya menjadi slogan, menunjukkan kurangnya efektivitas program pemerintah"},
+   {id:"b",text:"Sindiran bagi pembuat konten \"liburan ramah lingkungan\" hanya untuk pencitraan semata karena tetap membuang sampah sembarangan"},
+   {id:"c",text:"Penggambaran turis yang kewalahan dan menghela napas mencerminkan beban kerja yang berat karena perilaku abai para pengunjung"},
+   {id:"d",text:"Keadaan Pak Wayan yang terbiasa dengan pemandangan sampah di pantai menunjukkan adanya budaya pasrah terhadap masalah lingkungan"},
+   {id:"e",text:"Kontras antara spanduk \"Bersih Tanpa Sampah\" dengan sampah kenangan yang ditinggalkan, menunjukkan perlunya pengawasan ketat"}
+ ],
+ correct:"b"},
+
+{no:11, no_in_group:1, group:"g4", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Bacalah teks berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Pulihkan Ekosistem, Jaga Planet Kita dari Generasi ke Generasi
+
+Berdasarkan hasil riset LIPI (Lembaga Ilmu Pengetahuan Indonesia) terjadi peningkatan sampah plastik selama pandemik. Hal ini disebabkan oleh penggunaan layanan delivery makanan lewat jasa transportasi online, 96% paket dibungkus dengan plastik yang tebal dan ditambah dengan bubble wrap. Selain itu selotip, bungkus plastik, dan bubble wrap merupakan pembungkus berbahan plastik yang paling sering ditemukan. Sampah medis juga melonjak. Kementerian Lingkungan Hidup dan Kehutanan (KLHK) menyatakan bahwa selama pandemi, terjadi peningkatan timbunan sampah medis sebesar 30% hingga 50%. Dari data tersebut, Indonesia merupakan negara ke-2 penyumbang polusi sampah di lautan (3,22 metrik ton per tahun).
+
+Salah satu faktor penyebab dari permasalahan tersebut adalah dengan pertambahan jumlah penduduk akan terjadi peningkatan aktivitas manusia dan daya konsumsi yang melonjak. Hal itu menyebabkan meningkatnya jumlah dan jenis limbah sehingga menyebabkan lingkungan menjadi tercemar. Selain sampah, penebangan pohon secara liar sampai pada kebakaran hutan menjadi penyumbang terbesar dalam kerusakan ekosistem. Banyak aktivitas manusia yang mengancam pelestarian lingkungan sehingga menyebabkan ketidakseimbangan ekosistem. Manusia punya peran besar dalam menjaga keseimbangan ekosistem, bukan cuma untuk sekarang, tapi juga untuk generasi mendatang. Tanggung jawab dalam menjaga lingkungan, tentunya bukan hanya dibebankan oleh pemerintah saja, tetapi seluruh elemen masyarakat harus bahu-membahu dalam menjaga dan melestarikan lingkungan.
+
+Bertepatan dengan peringatan Hari Lingkungan Hidup Sedunia, yang tidak hanya sebagai seremonial belaka, tentunya menjadi sebuah harapan dalam meningkatkan kesadaran menjaga dan melestarikan lingkungan. Selain itu, memberikan semangat baru bagi kita semua untuk komitmen menjaga lingkungan. Dengan memulai dari diri sendiri dan hal paling kecil, yaitu tidak membuang sampah sembarangan, terutama sampah plastik karena merusak ekosistem laut, tidak menebang pohon dengan liar hingga membuat gundul hutan. Mari bersama merobohkan jurang ekologi, memulihkan ekosistem bumi dengan pendekatan pengelolaan sumber daya alam yang adil dan berkelanjutan.
+
+Sumber: https://uiad.ac.id/2021/06/06/opini-pulihkan-ekosistem-menjaga-planet-kita-dari-generasi-ke-generasi/ (dengan pengubahan)`,
+ text:"Bagaimana hubungan makna antara paragraf 1 dan paragraf 2 dalam teks tersebut?",
+ options:[
+   {id:"a",text:"Paragraf 2 menjelaskan akibat dari fenomena sampah yang diuraikan di paragraf 1"},
+   {id:"b",text:"Paragraf 2 menyajikan solusi awal untuk permasalahan yang diperkenalkan di paragraf 1"},
+   {id:"c",text:"Paragraf 2 memberikan contoh spesifik dari jenis sampah yang disebutkan di paragraf 1"},
+   {id:"d",text:"Paragraf 2 mengkritisi data yang rancu tentang sampah yang disajikan di paragraf 1"},
+   {id:"e",text:"Paragraf 2 menguraikan penyebab dari permasalahan yang dijabarkan di paragraf 1"}
+ ],
+ correct:"e"},
+
+{no:12, no_in_group:2, group:"g4", topic:"literasi-argumentasi", type:"kategori",
+ instruksi:"Tentukan kesesuaian setiap pernyataan berikut dengan data pada teks di atas!",
+ text:"Aktivitas manusia memberikan dampak besar terhadap pencemaran lingkungan di Indonesia. Data apa saja yang mendukung opini penulis tersebut? Klik pilihan Benar atau Salah untuk setiap pernyataan sesuai isi teks!",
+ statements:[
+   {text:"Peningkatan aktivitas manusia yang menyebabkan lingkungan tercemar didukung oleh data lonjakan timbunan sampah medis sebesar 30-50%.", correct:true},
+   {text:"Tingginya jumlah dan jenis limbah didukung oleh data bahwa 96% paket dibungkus dengan plastik tebal dan bubble wrap.", correct:true},
+   {text:"Kebakaran hutan yang merusak ekosistem didukung data bahwa Indonesia merupakan negara ke-2 penyumbang sampah.", correct:false}
+ ]},
+
+{no:13, no_in_group:3, group:"g4", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Mengapa penulis memilih istilah \"bahu-membahu\" untuk menggambarkan peran semua pihak dalam upaya pelestarian lingkungan?",
+ options:[
+   {id:"a",text:"Memperkuat makna pentingnya kolaborasi berbagai pihak untuk mencapai tujuan"},
+   {id:"b",text:"Memberikan sedikit kesan informal yang mungkin kurang pas untuk teks opini"},
+   {id:"c",text:"Mengindikasikan bahwa idiom lebih cocok digunakan untuk konteks fisik"},
+   {id:"d",text:"Menyiratkan adanya paksaan atau tekanan dari satu pihak kepada pihak lain"},
+   {id:"e",text:"Menunjukkan bahwa konteks ini terlalu ambigu dan tidak ada definisi yang jelas"}
+ ],
+ correct:"a"},
+
+{no:14, no_in_group:1, group:"g5", topic:"literasi-berita", type:"pg",
+ instruksi:"Bacalah teks berita berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Prospek Ekonomi Global di Tengah Ketidakpastian
+
+Jakarta, Senin, 16 Juni 2025 - Perekonomian global terus menghadapi tantangan signifikan di tengah ketidakpastian geopolitik dan tekanan inflasi yang persisten. Analisis terbaru yang dirilis pada (Senin, 2/6/2025), oleh Dana Moneter Internasional (IMF) menunjukkan adanya divergensi dalam laju pemulihan ekonomi antarwilayah, di mana beberapa negara seperti Amerika Serikat dan India menunjukkan ketahanan yang lebih baik, sementara negara-negara di Eropa dan Tiongkok masih berjuang mengatasi dampak guncangan eksternal.
+
+Kenaikan harga energi dan pangan tetap menjadi pendorong utama inflasi di banyak negara, dipicu oleh gangguan rantai pasok global dan konflik di Ukraina, memaksa bank sentral untuk mempertahankan kebijakan moneter yang ketat. Upaya ini, meskipun esensial untuk mengendalikan kenaikan harga, berpotensi mengerem pertumbuhan ekonomi. Para pengambil kebijakan dihadapkan pada dilema sulit: menyeimbangkan kebutuhan untuk meredam inflasi tanpa memicu resesi yang dalam.
+
+"Kami melihat adanya perlambatan pertumbuhan global yang signifikan di tahun ini, dan risiko resesi menjadi lebih nyata jika bank sentral terlalu agresif dalam menaikkan suku bunga," ujar seorang ekonom senior dari Bank Dunia, dalam sebuah webinar yang diadakan, (Rabu, 11/6).
+
+Di sisi lain, sektor manufaktur global menunjukkan tanda-tanda perlambatan, tercermin dari menurunnya indeks manajer pembelian (PMI) di beberapa ekonomi besar seperti Jerman dan Jepang. Penurunan permintaan ekspor dan gangguan rantai pasok masih menjadi perhatian utama bagi produsen. Namun, sektor jasa justru menunjukkan resiliensi yang lebih kuat, didukung oleh kembali normalnya aktivitas setelah pandemi, sebuah tren yang mulai terlihat sejak awal Desember 2024.
+
+Pasar tenaga kerja di beberapa negara maju masih relatif ketat, dengan tingkat pengangguran yang rendah. Kondisi ini memberikan dukungan terhadap daya beli konsumen, meskipun tekanan biaya hidup yang tinggi dapat mengikis dampaknya. Sementara itu, investasi langsung asing (FDI) cenderung melambat, mencerminkan kehati-hatian investor di tengah prospek ekonomi yang tidak menentu.
+
+Ke depan, koordinasi kebijakan ekonomi antarnegara akan menjadi kunci untuk menstabilkan kondisi global. Reformasi struktural yang bertujuan meningkatkan produktivitas dan daya saing juga dianggap krusial untuk memastikan pertumbuhan yang berkelanjutan dalam jangka panjang. Para ekonom memprediksi bahwa prospek ekonomi akan sangat bergantung pada evolusi inflasi, respons kebijakan moneter, dan perkembangan situasi geopolitik di seluruh dunia. Bagi Indonesia, kondisi ini menuntut kewaspadaan dan diversifikasi ekonomi agar tidak terlalu rentan terhadap gejolak global dalam kurun waktu tiga hingga enam bulan ke depan, terhitung sejak (16/6/2025).
+
+Sumber: Disadur dan diadaptasi dari rilis pers dan laporan Global Economic Prospects, Juni 2025 oleh World Bank (Bank Dunia).`,
+ text:"Fenomena yang menggambarkan \"inflasi\" berdasarkan teks di atas adalah ....",
+ options:[
+   {id:"a",text:"Pengencangan anggaran negara karena kurangnya barang dan jasa"},
+   {id:"b",text:"Kenaikan harga barang dan jasa secara terus menerus dalam kurun waktu tertentu"},
+   {id:"c",text:"Biaya yang mendorong kemandirian ekonomi hingga mampu bersaing secara global"},
+   {id:"d",text:"Pergeseran tren pasar global terhadap produk-produk dari Indonesia"},
+   {id:"e",text:"Lambatnya sektor manufaktur global akibat menurunnya pembelian"}
+ ],
+ correct:"b"},
+
+{no:15, no_in_group:2, group:"g5", topic:"literasi-berita", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Peristiwa yang menggambarkan tantangan perekonomian global adalah ....",
+ options:[
+   {id:"a",text:"Bank sentral di seluruh dunia mengesampingkan kebijakan moneter demi pertumbuhan ekonomi global"},
+   {id:"b",text:"Geopolitik berperan penting dalam menjaga kestabilan dan kekuatan perekonomian pada skala global"},
+   {id:"c",text:"Pertumbuhan ekonomi melambat sehingga memicu terjadinya resesi yang dialami masyarakat secara global"},
+   {id:"d",text:"Harga energi, pangan, dan komoditas lainnya yang tidak menentu terus menekan daya beli masyarakat"},
+   {id:"e",text:"Geopolitik memperlancar jalur perdagangan dan produksi sehingga menciptakan inflasi besar-besaran"}
+ ],
+ correct:"d"},
+
+{no:16, no_in_group:3, group:"g5", topic:"literasi-berita", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Manakah pernyataan yang dapat menjadi kelanjutan teks tersebut?",
+ options:[
+   {id:"a",text:"Peran aktif IMF dan Bank Dunia dalam menanggulangi krisis ekonomi dan pembentukan SDM di negara berkembang secara global"},
+   {id:"b",text:"Dampak langsung kebijakan suku bunga bank sentral terhadap tingkat pengangguran di setiap negara dan menjadi masalah global"},
+   {id:"c",text:"Analisis mendalam mengenai skenario dan kemungkinan-kemungkinan terkait evolusi inflasi, respons kebijakan, serta situasi geopolitik"},
+   {id:"d",text:"Analisis mengenai skenario dan kemungkinan-kemungkinan terkait evolusi inflasi, respons kebijakan, serta situasi geopolitik global"},
+   {id:"e",text:"Pentingnya investasi di sektor manufaktur untuk meningkatkan ekspor dan mengurangi gangguan rantai pasok secara global"}
+ ],
+ correct:"d"},
+
+{no:17, no_in_group:1, group:"g6", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Bacalah teks berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Tari Hudoq: Warisan Budaya yang Harus Dilestarikan
+
+Tari Hudoq dari suku Dayak Modang di Kalimantan Timur bukan sekadar tontonan seni biasa. Lebih dari itu, tarian ini adalah warisan budaya yang sarat akan makna spiritual dan simbolis. Oleh karena itu, melestarikan Tari Hudoq menjadi sebuah keharusan, tidak hanya untuk menjaga keragaman budaya Indonesia, tetapi juga untuk mengingatkan kita akan pentingnya hubungan harmonis antara manusia dan alam.
+
+Pertama, Tari Hudoq adalah cerminan dari kearifan lokal yang mengajarkan nilai-nilai fundamental. Tarian ini merupakan bagian integral dari ritual keagamaan untuk menjalin hubungan harmonis dengan roh penjaga pertanian, Halaeng Heboung, dan roh pelindung umat manusia, Selo Sen. Dalam era modern yang sering kali mengabaikan hubungan manusia dengan alam, tarian ini berfungsi sebagai pengingat kuat akan ketergantungan kita pada alam dan pentingnya menghormati kekuatan yang lebih besar dari diri kita.
+
+Kedua, setiap elemen dalam Tari Hudoq mengandung simbolisme yang mendalam dan relevan. Penggunaan topeng kayu yang besar dan dedaunan yang menutupi tubuh penari bukan sekadar properti, melainkan representasi kekuatan dan perlindungan dari roh-roh tersebut. Gerakan tari yang menggambarkan keteguhan petani serta nyanyian tradisional yang mengiringinya adalah permohonan tulus kepada alam semesta untuk memberikan keseimbangan dan kesuksesan panen. Menghilangkan tarian ini berarti menghilangkan simbolisme penting yang telah diwariskan turun-temurun, yang merupakan esensi dari budaya Dayak Modang itu sendiri.
+
+Ketiga, Tari Hudoq memiliki nilai edukatif yang tinggi bagi masyarakat luas, termasuk wisatawan. Pertunjukan ini tidak hanya memukau secara visual, tetapi juga memberikan pemahaman tentang pentingnya keseimbangan alam dan hubungan spiritual yang mendalam. Dengan melestarikan dan memperkenalkan tarian ini kepada publik yang lebih luas, kita tidak hanya menjaga keberadaan tarian itu sendiri, tetapi juga menyebarkan pesan tentang pentingnya menjaga lingkungan dan menghargai nilai-nilai tradisional.
+
+Dengan demikian, jelaslah bahwa Tari Hudoq bukan sekadar pertunjukan, melainkan sebuah jembatan spiritual yang menghubungkan manusia dengan alam dan leluhur. Mengabaikan pelestariannya sama saja dengan mengabaikan kekayaan spiritual dan kearifan lokal yang menjadi fondasi budaya kita. Pelestarian Tari Hudoq adalah investasi untuk masa depan, memastikan bahwa nilai-nilai berharga ini tetap hidup dan relevan bagi generasi mendatang.`,
+ text:"Makna dari istilah Halaeng Heboung dan Selo Sen dalam teks tersebut adalah ....",
+ options:[
+   {id:"a",text:"Jenis topeng yang digunakan dalam tari Hudoq untuk menciptakan kesan mistis"},
+   {id:"b",text:"Nama-nama suku asli Dayak Modang yang menjadi leluhur pencipta tari Hudoq"},
+   {id:"c",text:"Judul nyanyian tradisional yang mengiringi tiap gerakan dalam tari Hudoq"},
+   {id:"d",text:"Sebutan khusus untuk roh penjaga pertanian dan roh pelindung umat manusia"},
+   {id:"e",text:"Simbol kesuburan tanah dan kesejahteraan hidup masyarakat Dayak Modang"}
+ ],
+ correct:"d"},
+
+{no:18, no_in_group:2, group:"g6", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Tari Hudoq tidak hanya warisan budaya, tetapi juga bentuk pengajaran nilai-nilai spiritual dan ekologis yang berasal dari kearifan lokal. Pernyataan mana yang mendukung ide tersebut?",
+ options:[
+   {id:"a",text:"Tari Hudoq menyajikan tontonan yang memukau pengunjung yang berlibur ke Kalimantan"},
+   {id:"b",text:"Tari Hudoq menggunakan topeng kayu besar dan daun-daunan sebagai ciri khas penampilan"},
+   {id:"c",text:"Tari Hudoq menggambarkan semangat petani suku Dayak dalam menjaga hasil panen"},
+   {id:"d",text:"Tari Hudoq termasuk warisan budaya Indonesia yang mengajarkan nilai keberlanjutan"},
+   {id:"e",text:"Tari Hudoq menjadi pengingat kuat akan ketergantungan manusia pada alam"}
+ ],
+ correct:"e"},
+
+{no:19, no_in_group:3, group:"g6", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Bagaimana keterkaitan antara paragraf ketiga dengan paragraf keempat pada teks tersebut?",
+ options:[
+   {id:"a",text:"Paragraf ketiga dan keempat saling melengkapi argumen tentang pentingnya pelestarian Tari Hudoq"},
+   {id:"b",text:"Paragraf ketiga dan keempat sama-sama menjelaskan tentang ritual pertanian dengan penekanan pada sejarah"},
+   {id:"c",text:"Paragraf ketiga menguraikan makna filosofis Tari Hudoq yang sudah disinggung pada paragraf keempat"},
+   {id:"d",text:"Paragraf ketiga adalah opini penulis tentang tari Hudoq yang didukung oleh data penjelas pada paragraf keempat"},
+   {id:"e",text:"Paragraf ketiga menjabarkan tantangan budaya tentang tari Hudoq dan paragraf keempat berisi penyelesaiannya"}
+ ],
+ correct:"a"},
+
+{no:20, no_in_group:4, group:"g6", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Mengapa paragraf terakhir pada teks tersebut sudah sesuai untuk menutup isi teks tersebut?",
+ options:[
+   {id:"a",text:"Berisi fungsi Tari Hudoq sebagai hiburan masyarakat dan dalam harapan dalam perayaan panen"},
+   {id:"b",text:"Menekankan peran penting Tari Hudoq dalam menjaga pertanian dan hubungan harmonis antarwarga"},
+   {id:"c",text:"Merangkum seluruh poin penting dan memberikan penegasan yang kuat tentang pelestarian tari Hudoq"},
+   {id:"d",text:"Menegaskan penjelasan bahwa tari Hudoq mengandung nilai-nilai penting dan hubungannya dengan alam"},
+   {id:"e",text:"Mewakili makna gerakan dan properti khas seperti topeng dan daun-daunan yang digunakan dalam pertunjukan"}
+ ],
+ correct:"c"},
+
+{no:21, no_in_group:1, group:"g7", topic:"literasi-naratif", type:"pg",
+ instruksi:"Bacalah kutipan cerpen berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Roh Meratus
+
+..............
+
+Kami kembali berjalan pulang. Kondisiku sudah sepenuhnya normal. Tetua melangkah di depanku. Tak kusangka, dalam keadaan kritis ternyata kami telah sangat jauh memasuki belantara. Aku memperhatikan pohon-pohon besar yang kami lewati. Sinar matahari bahkan hampir tak bisa menembus ke bawah.
+
+Aku merasa asing di tempat ini. Pohon-pohon yang berlumut itu, sulur-sulur yang bergantungan, semak-semak yang rimbun itu. Oh... ternyata belantara ini adalah tempat menakjubkan. Bayangkan, di lumut batang pohon itu udang-udang kecil berloncatan lincah. Belum pernah aku melihat udang hidup di batang pohon!
+
+"Kau tahu anak muda, tempat ini merasa terancam dengan keberadaan..." tetua menghentikan langkahnya dan mengambil sesuatu dalam butah. "Roh Meratus meniupkan wisa ke tubuh kalian, sayang kawan-kawanmu yang lain terlambat," sambungnya kemudian melemparkan gulungan kertas yang diambil dari butah. Sigap kutangkap gulungan itu.
+
+"Itu peta yang kuambil dari ranselmu. Ternyata kalian memasang patok-patok dan memberi tanda pohon-pohon besar untuk ditebang. Dan perlu kau ketahui anak muda, tempat ini juga termasuk wilayah yang akan kalian pasangi patok-patok itu," katanya dingin.
+
+Perlahan kubuka gulungan peta di tanganku. Dari peta terlihat jelas, pekerjaan kami tinggal sedikit lagi. Jika saja semuanya lancar, maka kami akan sampai di tempat ini dan selesailah kontrak kerja kami. Dalam waktu singkat, mungkin alat-alat berat akan didatangkan! Pohon-pohon ini, sulur-sulur ini, lumut-lumut ini, udang-udang ini... akan bagaimana?
+
+"Tetua, izinkan aku tinggal di sini dan bersama kaummu menjaga tempat ini..." Akhirnya setelah lama hanya diam, aku menatap mata tetua mantap.
+
+(Cerpen karya Zaidinoor)
+
+Glosarium:
+Butah: wadah atau tempat yang digunakan untuk membawa sesuatu, biasanya terbuat dari anyaman rotan atau bambu
+Wisa: bisa atau racun`,
+ text:"Latar tempat yang tergambar dalam cerita tersebut adalah ....",
+ options:[
+   {id:"a",text:"sebuah perkampungan penduduk adat"},
+   {id:"b",text:"daerah perkotaan yang ramai"},
+   {id:"c",text:"pegunungan batu yang tandus"},
+   {id:"d",text:"hutan belantara yang lebat"},
+   {id:"e",text:"pantai dengan pasir putih"}
+ ],
+ correct:"d"},
+
+{no:22, no_in_group:2, group:"g7", topic:"literasi-naratif", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Apa yang menyebabkan konflik dalam kutipan cerpen tersebut?",
+ options:[
+   {id:"a",text:"Tokoh utama dan kawan-kawan tersesat di tengah hutan belantara"},
+   {id:"b",text:"Kawan-kawan tokoh utama mengalami hal buruk karena wisa yang ditiupkan"},
+   {id:"c",text:"Tetua menemukan peta dari ransel tokoh utama"},
+   {id:"d",text:"Ketua adat tidak menyukai kehadiran orang luar di wilayahnya"},
+   {id:"e",text:"Kelompok tokoh utama dianggap mengancam kelestarian hutan"}
+ ],
+ correct:"b"},
+
+{no:23, no_in_group:3, group:"g7", topic:"literasi-naratif", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Apa yang akan dilakukan tokoh utama setelah mengalami peristiwa tersebut?",
+ options:[
+   {id:"a",text:"Meninggalkan pekerjaannya dan bergabung dengan tetua untuk melindungi hutan"},
+   {id:"b",text:"Menyelesaikan proyek sesuai rencana agar kontrak kerja tidak batal"},
+   {id:"c",text:"Meninggalkan hutan tanpa memberi tahu tetua untuk menghindari konflik"},
+   {id:"d",text:"Menyampaikan laporan kepada perusahaan untuk mempercepat pengerahan alat berat"},
+   {id:"e",text:"Mencari orang pintar untuk mengusir Roh Meratus yang berada di hutan tersebut"}
+ ],
+ correct:"a"},
+
+{no:24, no_in_group:4, group:"g7", topic:"literasi-naratif", type:"kategori",
+ instruksi:"Tentukan kesesuaian setiap pernyataan berikut dengan isi kutipan cerpen di atas!",
+ text:"Perubahan sikap tokoh utama ditunjukkan melalui tindakannya di akhir kutipan. Manakah pernyataan yang paling tepat untuk menilai kesesuaian antara karakter tokoh dan tindakannya? Klik Benar atau Salah pada setiap pernyataan berikut!",
+ statements:[
+   {text:"Tindakan tokoh utama sesuai karena ia menunjukkan kepedulian terhadap kelestarian hutan setelah mengalami perubahan pandangan.", correct:true},
+   {text:"Tindakan tokoh utama tidak sesuai karena ia telah meninggalkan kewajiban dalam menyelesaikan kontrak kerja.", correct:false},
+   {text:"Tindakan tokoh utama sesuai karena ia ingin membuktikan bahwa ia mampu memimpin proyek tanpa menggunakan alat berat.", correct:false}
+ ]},
+
+{no:25, no_in_group:1, group:"g8", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Bacalah teks berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Tradisi Belis: Simbol Budaya yang Menyimpan Beban Finansial di Era Modern
+
+Belis adalah tradisi di wilayah Indonesia bagian timur seperti Nusa Tenggara Timur, yang secara umum di Indonesia dikenal dengan mas kawin atau mahar. Tradisi ini melambangkan penghormatan kepada wanita dan penyatuan keluarga. Namun, di balik nilainya, belis sering menjadi beban finansial berat bagi pihak laki-laki, yang kadang memicu tekanan psikologis dan mengganggu hubungan kekeluargaan. Beberapa pihak, terutama para sesepuh desa atau orang-orang tua, kadang terlalu kukuh untuk mempertahankan tradisi dan membuat tekanan dengan nilai yang semakin naik.
+
+Belis memiliki makna yang mendalam dan dianggap sebagai bentuk pengakuan atas peran penting seorang perempuan di dalam keluarga. Belis merupakan representasi keseriusan dan komitmen seorang pria untuk membangun keluarga. Proses penyerahan belis tidak hanya dimaknai sebagai pertukaran materi, tetapi juga sebagai simbol penyatuan dua komunitas besar, yakni keluarga kedua belah pihak. Pada masyarakat Lamaholot misalnya, belis diwujudkan dalam bentuk gading gajah atau bala, yang besarnya disesuaikan dengan status sosial seorang perempuan. Selain itu, disertakan juga pelengkap belis seperti sarung tenun sutra dan ternak. Uniknya, meskipun belis dari pihak laki-laki, pihak keluarga perempuan memberikan balasan simbolis kepada pihak laki-laki dalam bentuk barang berharga lainnya. Tradisi ini mengajarkan keseimbangan dan saling menghargai di antara kedua belah pihak.
+
+Meskipun belis mengandung nilai-nilai yang positif, tantangannya saat ini adalah menjaga agar tradisi tersebut tidak menjadi beban finansial yang berat. Tuntutan belis yang tinggi sering kali menjadi sumber tekanan, terutama bagi keluarga laki-laki. Dalam beberapa kasus, perkara belis dapat berimbas pada kesehatan mental hingga memicu tindakan tragis, seperti yang pernah terjadi di Kupang. Selain menjadi tantangan finansial, besarnya tuntutan materi untuk belis juga sering kali menimbulkan ketegangan dan konflik di antara pasangan dan keluarganya. Ketika keluarga perempuan menetapkan nominal belis yang tinggi, tidak jarang hal ini membangkitkan sentimen negatif dari pihak laki-laki yang merasa tertekan dan kehilangan martabat jika tidak mampu memenuhinya. Alhasil, penundaan pernikahan diambil guna memenuhi permintaan belis. Konflik semacam ini bisa merusak hubungan dua keluarga yang harusnya harmonis.
+
+Sumber:
+https://beritakini.co.id/detail/36671/tradisi-belis-simbol-budaya-yang-menyimpan-beban-finansial-di-era-modern
+https://www.krajan.id/belis-dalam-pernikahan-adat-ntt-simbol-budaya-atau-beban-sosial/`,
+ text:"Apa makna kata sesepuh pada teks tersebut?",
+ options:[
+   {id:"a",text:"keluarga yang dihormati oleh seluruh warga desa"},
+   {id:"b",text:"orang yang dituakan atau dijadikan pemimpin"},
+   {id:"c",text:"masyarakat yang memiliki peran penting"},
+   {id:"d",text:"pengurus atau perangkat desa yang sudah tua"},
+   {id:"e",text:"laki-laki yang sudah menikah dan memiliki anak"}
+ ],
+ correct:"b"},
+
+{no:26, no_in_group:2, group:"g8", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Tradisi belis memiliki banyak nilai positif. Manakah gagasan penjelas yang mendukung gagasan pokok tersebut?",
+ options:[
+   {id:"a",text:"Jumlah belis ditentukan secara sepihak oleh keluarga perempuan."},
+   {id:"b",text:"Belis merupakan simbol keseriusan dan ketulusan dari pihak perempuan."},
+   {id:"c",text:"Balasan dari keluarga perempuan biasanya permintaan dari pihak laki-laki."},
+   {id:"d",text:"Belis menjadi wahana penghormatan dan juga penyatuan kedua pihak keluarga."},
+   {id:"e",text:"Belis harus berupa gading gajah dan tidak bisa digantikan dengan benda lain."}
+ ],
+ correct:"d"},
+
+{no:27, no_in_group:3, group:"g8", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Bagaimana hubungan makna antara paragraf kedua dan ketiga pada teks tersebut?",
+ options:[
+   {id:"a",text:"Paragraf kedua mempertentangkan mengenai pelestarian tradisi belis beserta contohnya di paragraf ketiga."},
+   {id:"b",text:"Paragraf kedua memberikan penjelasan alasan tradisi belis yang digambarkan perlu dipertahankan di paragraf ketiga."},
+   {id:"c",text:"Paragraf ketiga memberikan perbandingan penerapan tradisi belis di beberapa daerah yang dijelaskan di paragraf kedua."},
+   {id:"d",text:"Paragraf ketiga menjelaskan tata laksana tradisi belis berdasarkan filosofinya seperti yang diuraikan di paragraf kedua."},
+   {id:"e",text:"Paragraf ketiga memaparkan dampak negatif tradisi belis, meskipun maknanya baik seperti yang dijelaskan di paragraf kedua."}
+ ],
+ correct:"e"},
+
+{no:28, no_in_group:4, group:"g8", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Perhatikan kalimat berikut, lalu pilih jawaban yang paling tepat!",
+ text:`Perhatikan kalimat berikut:\n“Dengan demikian, perlu untuk memikirkan ulang makna belis dan menetapkan cara ataupun perhitungan besaran belis yang lebih fleksibel.”\nKalimat tersebut dapat menjadi kesimpulan yang sesuai teks argumentasi tersebut karena ....`,
+ options:[
+   {id:"a",text:"menekankan pentingnya menjaga tradisi belis agar tidak hilang ditelan zaman"},
+   {id:"b",text:"mengusulkan agar tradisi belis dihapuskan sepenuhnya demi kesejahteraan keluarga"},
+   {id:"c",text:"menegaskan bahwa belis adalah pertukaran materi semata dan tidak memiliki makna lain"},
+   {id:"d",text:"merangkum masalah utama yang ditimbulkan oleh belis yang kaku, yaitu konflik dan tekanan"},
+   {id:"e",text:"menyimpulkan solusi konkret untuk masalah yang dibahas, yaitu beban finansial akibat belis"}
+ ],
+ correct:"e"},
+
+{no:29, no_in_group:1, group:"g9", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Bacalah teks berikut, lalu jawab pertanyaan-pertanyaan berikut!",
+ stimulus:`Doom Scrolling: Kebiasaan Menggulir Layar yang Menguras Energi
+
+Istilah doom scrolling merujuk pada kebiasaan menggulir layar gawai secara terus-menerus untuk membaca berita atau unggahan yang bernada negatif, meskipun hal tersebut membuat perasaan semakin cemas. Fenomena ini semakin marak di kalangan remaja seiring dengan mudahnya akses informasi melalui media sosial. Alih-alih berhenti setelah menemukan kabar yang meresahkan, banyak pengguna justru terus mencari informasi serupa hingga larut malam.
+
+Kebiasaan ini muncul karena otak manusia secara alami lebih tertarik pada informasi yang mengandung ancaman atau bahaya, sebuah kecenderungan yang disebut negativity bias. Ditambah lagi, algoritma media sosial dirancang untuk menampilkan konten yang paling banyak memicu interaksi, yang seringkali justru berupa berita buruk. Akibatnya, semakin sering seseorang berinteraksi dengan konten negatif, semakin banyak pula konten serupa yang muncul di beranda mereka.
+
+Dampak dari doom scrolling tidak bisa dianggap remeh. Sejumlah kajian menunjukkan bahwa kebiasaan ini berkaitan dengan meningkatnya tingkat kecemasan, gangguan tidur, dan menurunnya produktivitas harian. Oleh karena itu, penting bagi setiap pengguna media sosial untuk mengenali batas dirinya sendiri dan membatasi waktu penggunaan gawai, terutama menjelang waktu tidur, agar kesehatan mental tetap terjaga.`,
+ text:"Apa makna istilah negativity bias berdasarkan teks tersebut?",
+ options:[
+   {id:"a",text:"Kecenderungan otak manusia untuk lebih tertarik pada informasi yang mengandung ancaman atau bahaya."},
+   {id:"b",text:"Algoritma media sosial yang dirancang untuk menampilkan konten positif."},
+   {id:"c",text:"Kebiasaan menggulir layar gawai hingga larut malam."},
+   {id:"d",text:"Gangguan tidur akibat penggunaan gawai secara berlebihan."},
+   {id:"e",text:"Menurunnya produktivitas harian akibat kecemasan berlebih."}
+ ],
+ correct:"a"},
+
+{no:30, no_in_group:2, group:"g9", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Manakah gagasan penjelas yang mendukung gagasan pokok bahwa algoritma media sosial turut memperparah doom scrolling?",
+ options:[
+   {id:"a",text:"Otak manusia secara alami tertarik pada ancaman atau bahaya."},
+   {id:"b",text:"Algoritma menampilkan konten yang paling banyak memicu interaksi, yang sering berupa berita buruk."},
+   {id:"c",text:"Doom scrolling berkaitan dengan meningkatnya kecemasan."},
+   {id:"d",text:"Pengguna disarankan membatasi waktu penggunaan gawai."},
+   {id:"e",text:"Fenomena ini semakin marak di kalangan remaja."}
+ ],
+ correct:"b"},
+
+{no:31, no_in_group:3, group:"g9", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat berdasarkan teks di atas!",
+ text:"Bagaimana hubungan makna antara paragraf kedua dan paragraf ketiga pada teks tersebut?",
+ options:[
+   {id:"a",text:"Paragraf ketiga menjelaskan akibat dari fenomena yang diuraikan pada paragraf kedua."},
+   {id:"b",text:"Paragraf ketiga menyajikan solusi yang bertentangan dengan paragraf kedua."},
+   {id:"c",text:"Paragraf ketiga mengulang informasi yang sama dengan paragraf kedua."},
+   {id:"d",text:"Paragraf ketiga membandingkan dua pendapat ahli yang disebutkan pada paragraf kedua."},
+   {id:"e",text:"Paragraf ketiga menjelaskan sebab dari akibat yang dijabarkan pada paragraf kedua."}
+ ],
+ correct:"a"},
+
+{no:32, no_in_group:4, group:"g9", topic:"literasi-argumentasi", type:"kategori",
+ instruksi:"Tentukan kesesuaian setiap pernyataan berikut dengan isi teks di atas!",
+ text:"Berikut adalah beberapa pernyataan terkait dampak dan penyebab doom scrolling. Klik pilihan Benar atau Salah untuk setiap pernyataan sesuai isi teks!",
+ statements:[
+   {text:"Doom scrolling dapat menyebabkan gangguan tidur dan menurunnya produktivitas harian.", correct:true},
+   {text:"Algoritma media sosial dirancang khusus untuk menampilkan konten yang menenangkan penggunanya.", correct:false},
+   {text:"Negativity bias menyebabkan pengguna media sosial lebih mudah berhenti membaca berita negatif.", correct:false}
+ ]},
+
+{no:33, no_in_group:5, group:"g9", topic:"literasi-argumentasi", type:"pg",
+ instruksi:"Perhatikan kalimat berikut, lalu pilih jawaban yang paling tepat!",
+ text:`Perhatikan kalimat berikut:\n“Oleh karena itu, penting bagi setiap pengguna media sosial untuk mengenali batas dirinya sendiri dan membatasi waktu penggunaan gawai, terutama menjelang waktu tidur, agar kesehatan mental tetap terjaga.”\nKalimat tersebut dapat menjadi kesimpulan yang sesuai teks tersebut karena ....`,
+ options:[
+   {id:"a",text:"merangkum penyebab doom scrolling yang dijelaskan pada paragraf kedua"},
+   {id:"b",text:"menyimpulkan solusi praktis untuk mengurangi dampak negatif doom scrolling yang telah dipaparkan"},
+   {id:"c",text:"menyangkal seluruh dampak buruk yang telah disebutkan sebelumnya"},
+   {id:"d",text:"menjelaskan definisi doom scrolling secara lebih rinci"},
+   {id:"e",text:"membandingkan doom scrolling dengan kebiasaan bermedia sosial yang sehat"}
+ ],
+ correct:"b"},
+
+{no:34, topic:"kaidah-kebahasaan", type:"pg",
+ instruksi:"Pilih satu jawaban yang paling tepat!",
+ text:`Perhatikan kalimat berikut!\n“Angin malam menari-nari di antara dedaunan kering, seolah ikut bersedih atas kepergian sang surya.”\nMajas yang digunakan dalam kalimat tersebut berfungsi untuk ....`,
+ options:[
+   {id:"a",text:"memberi sifat manusia pada benda mati sehingga terkesan lebih hidup dan puitis"},
+   {id:"b",text:"membandingkan dua hal secara eksplisit menggunakan kata \"seperti\" atau \"bagai\""},
+   {id:"c",text:"menyindir secara halus suatu keadaan yang dianggap kurang baik"},
+   {id:"d",text:"menegaskan makna melalui pengulangan kata secara berlebihan"},
+   {id:"e",text:"menyampaikan makna konotatif dengan menggunakan lambang tertentu"}
+ ],
+ correct:"a"},
+
+{no:35, topic:"kaidah-kebahasaan", type:"mcma",
+ instruksi:"Pilih semua jawaban yang benar (jawaban bisa lebih dari satu)!",
+ text:"Pilih semua kalimat berikut yang termasuk kalimat efektif!",
+ options:[
+   {id:"a",text:"Bagi seluruh siswa kelas XII harap segera mengumpulkan tugas."},
+   {id:"b",text:"Siswa kelas XII harus segera mengumpulkan tugas."},
+   {id:"c",text:"Karena hujan deras, sehingga acara ditunda."},
+   {id:"d",text:"Acara tersebut ditunda karena hujan turun sangat deras."},
+   {id:"e",text:"Para siswa-siswa sedang mengerjakan tugas kelompok."}
+ ],
+ correct:["b","d"]}
+];
+
+const TOTAL_SOAL = QUESTIONS.length; // 35
+const DURASI_DETIK = 75 * 60; // 75 menit (Diubah dari 90 menit)
+
+/* =======================================================================
+   STATE
+   ======================================================================= */
+let peserta = { nama:"", nisn:"", sekolah:"" };
+let currentIndex = 0;
+let answers = {};      // { no: selectedOptionId | [ids] | [bool,...] }
+let doubtful = {};     // { no: true/false }
+let timeLeft = DURASI_DETIK;
+let timerInterval = null;
+let submitted = false;
+
+/* =======================================================================
+   VALIDASI FORM AWAL
+   ======================================================================= */
+["input-nama","input-nisn","input-sekolah"].forEach(id=>{
+  document.getElementById(id).addEventListener("input", cekForm);
+  document.getElementById(id).addEventListener("change", cekForm);
+});
+function cekForm(){
+  const nama = document.getElementById("input-nama").value.trim();
+  const nisn = document.getElementById("input-nisn").value.trim();
+  const sekolah = document.getElementById("input-sekolah").value.trim();
+  document.getElementById("btn-mulai").disabled = !(nama && nisn && sekolah);
+}
+
+function mulaiTryOut(){
+  peserta.nama = document.getElementById("input-nama").value.trim();
+  peserta.nisn = document.getElementById("input-nisn").value.trim();
+  peserta.sekolah = document.getElementById("input-sekolah").value.trim();
+
+  document.getElementById("tb-nama").textContent = peserta.nama;
+  document.getElementById("tb-nisn").textContent = peserta.nisn;
+  document.getElementById("tb-sekolah").textContent = peserta.sekolah;
+
+  switchScreen("screen-quiz");
+  buildNavGrid();
+  renderQuestion(0);
+  startTimer();
+}
+
+function switchScreen(id){
+  document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  window.scrollTo(0,0);
+}
+
+/* =======================================================================
+   TIMER
+   ======================================================================= */
+function startTimer(){
+  updateTimerDisplay();
+  timerInterval = setInterval(()=>{
+    timeLeft--;
+    updateTimerDisplay();
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      timeLeft = 0;
+      updateTimerDisplay();
+      autoSubmit();
+    }
+  },1000);
+}
+function updateTimerDisplay(){
+  const m = Math.floor(timeLeft/60);
+  const s = timeLeft%60;
+  document.getElementById("timer-display").textContent = String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+  const box = document.getElementById("timer-box");
+  if(timeLeft <= 300){ box.classList.add("warning"); } else { box.classList.remove("warning"); }
+}
+
+/* =======================================================================
+   NAV GRID
+   ======================================================================= */
+function buildNavGrid(){
+  const grid = document.getElementById("nav-grid");
+  grid.innerHTML = "";
+  QUESTIONS.forEach((q, idx)=>{
+    const btn = document.createElement("button");
+    btn.className = "nav-btn";
+    btn.textContent = q.no;
+    btn.id = "navbtn-"+q.no;
+    btn.onclick = ()=> renderQuestion(idx);
+    grid.appendChild(btn);
+  });
+  refreshNavColors();
+}
+
+function isAnswered(q){
+  const a = answers[q.no];
+  if(a === undefined || a === null) return false;
+  if(q.type === "pg") return !!a;
+  if(q.type === "mcma") return Array.isArray(a) && a.length>0;
+  if(q.type === "kategori") return Array.isArray(a) && a.length === q.statements.length && a.every(v=>v!==null && v!==undefined);
+  return false;
+}
+
+function refreshNavColors(){
+  let terjawab=0, ragu=0;
+  QUESTIONS.forEach((q, idx)=>{
+    const btn = document.getElementById("navbtn-"+q.no);
+    btn.classList.remove("answered","doubt","current");
+    if(idx === currentIndex) btn.classList.add("current");
+    if(doubtful[q.no]){
+      btn.classList.add("doubt"); ragu++;
+      if(isAnswered(q)) terjawab++;
+    } else if(isAnswered(q)){
+      btn.classList.add("answered"); terjawab++;
+    }
+  });
+  document.getElementById("sum-terjawab").textContent = terjawab;
+  document.getElementById("sum-ragu").textContent = ragu;
+  document.getElementById("sum-belum").textContent = TOTAL_SOAL - terjawab;
+}
+
+/* =======================================================================
+   RENDER SOAL
+   ======================================================================= */
+function renderQuestion(idx){
+  currentIndex = idx;
+  const q = QUESTIONS[idx];
+
+  const groupSize = q.group ? QUESTIONS.filter(x=>x.group===q.group).length : 0;
+  document.getElementById("q-number-badge").textContent = "SOAL "+q.no+"/35" + (q.group ? " (GRUP "+q.group.toUpperCase()+" • "+q.no_in_group+"/"+groupSize+")" : "");
+  const typeLabel = q.type === "pg" ? "PILIHAN GANDA" : q.type === "mcma" ? "PG KOMPLEKS (MCMA)" : "PG KOMPLEKS KATEGORI";
+  document.getElementById("q-type-badge").textContent = typeLabel;
+  document.getElementById("q-instruksi").textContent = q.instruksi;
+  document.getElementById("q-text").textContent = q.text;
+
+  // stimulus (tampil jika ada, terutama untuk soal grup)
+  const stimContainer = document.getElementById("stimulus-container");
+  if(q.stimulus){
+    stimContainer.innerHTML = '<div class="stimulus-box"><span class="stim-label">📖 BACAAN / STIMULUS</span>'+escapeHtml(q.stimulus)+'</div>';
+  } else if(q.group){
+    const first = QUESTIONS.find(x=>x.group===q.group && x.stimulus);
+    stimContainer.innerHTML = first ? '<div class="stimulus-box"><span class="stim-label">📖 BACAAN / STIMULUS</span>'+escapeHtml(first.stimulus)+'</div>' : "";
+  } else {
+    stimContainer.innerHTML = "";
+  }
+
+  const body = document.getElementById("q-body");
+  body.innerHTML = "";
+
+  if(q.type === "pg"){
+    const wrap = document.createElement("div");
+    wrap.className = "options";
+    const selected = answers[q.no];
+    q.options.forEach(opt=>{
+      const div = document.createElement("div");
+      div.className = "option" + (selected === opt.id ? " selected" : "");
+      div.onclick = ()=> pilihPG(q.no, opt.id);
+      div.innerHTML = '<span class="opt-mark">'+opt.id.toUpperCase()+'</span><span class="opt-text">'+escapeHtml(opt.text)+'</span>';
+      wrap.appendChild(div);
+    });
+    body.appendChild(wrap);
+
+  } else if(q.type === "mcma"){
+    const wrap = document.createElement("div");
+    wrap.className = "options";
+    const selected = answers[q.no] || [];
+    q.options.forEach(opt=>{
+      const div = document.createElement("div");
+      div.className = "option checkbox" + (selected.includes(opt.id) ? " selected" : "");
+      div.onclick = ()=> pilihMCMA(q.no, opt.id);
+      div.innerHTML = '<span class="opt-mark">'+(selected.includes(opt.id) ? "✓" : "")+'</span><span class="opt-text">'+escapeHtml(opt.text)+'</span>';
+      wrap.appendChild(div);
+    });
+    body.appendChild(wrap);
+
+  } else if(q.type === "kategori"){
+    const table = document.createElement("table");
+    table.className = "kategori-table";
+    const current = answers[q.no] || new Array(q.statements.length).fill(null);
+    q.statements.forEach((st, i)=>{
+      const tr = document.createElement("tr");
+      const val = current[i];
+      tr.innerHTML = '<td class="stmt">'+escapeHtml(st.text)+'</td>'+
+        '<td><div class="kategori-choice">'+
+        '<button class="kc-btn benar'+(val===true?" active":"")+'" onclick="pilihKategori('+q.no+','+i+',true,'+q.statements.length+')">BENAR</button>'+
+        '<button class="kc-btn salah'+(val===false?" active":"")+'" onclick="pilihKategori('+q.no+','+i+',false,'+q.statements.length+')">SALAH</button>'+
+        '</div></td>';
+      table.appendChild(tr);
+    });
+    body.appendChild(table);
+  }
+
+  const raguBtn = document.getElementById("btn-ragu");
+  raguBtn.style.background = doubtful[q.no] ? "var(--kuning)" : "";
+  raguBtn.style.color = doubtful[q.no] ? "#5a4400" : "";
+  raguBtn.style.borderColor = doubtful[q.no] ? "var(--kuning)" : "";
+
+  refreshNavColors();
+}
+
+function escapeHtml(str){
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function pilihPG(no, optId){
+  answers[no] = optId;
+  renderQuestion(currentIndex);
+}
+
+function pilihMCMA(no, optId){
+  let arr = answers[no] ? answers[no].slice() : [];
+  if(arr.includes(optId)){
+    arr = arr.filter(x=>x!==optId);
+  } else {
+    arr.push(optId);
+  }
+  answers[no] = arr;
+  renderQuestion(currentIndex);
+}
+
+function pilihKategori(no, idx, val, totalStmt){
+  let arr = answers[no] ? answers[no].slice() : new Array(totalStmt).fill(null);
+  arr[idx] = val;
+  answers[no] = arr;
+  renderQuestion(currentIndex);
+}
+
+function toggleRagu(){
+  const q = QUESTIONS[currentIndex];
+  doubtful[q.no] = !doubtful[q.no];
+  renderQuestion(currentIndex);
+}
+
+function prevQuestion(){
+  if(currentIndex > 0) renderQuestion(currentIndex - 1);
+}
+function nextQuestion(){
+  if(currentIndex < TOTAL_SOAL - 1) renderQuestion(currentIndex + 1);
+  else konfirmasiKirim();
+}
+
+/* =======================================================================
+   TOGGLE PANEL NAVIGASI (soal full-screen)
+   ======================================================================= */
+let navPanelHidden = false;
+function toggleNavPanel(){
+  navPanelHidden = !navPanelHidden;
+  const navPanel = document.getElementById("nav-panel");
+  const reopenTab = document.getElementById("nav-reopen-tab");
+  const btnShowNav = document.getElementById("btn-show-nav");
+
+  if(navPanelHidden){
+    navPanel.classList.add("collapsed");
+    reopenTab.classList.add("visible");
+    btnShowNav.style.display = "inline-flex";
+  } else {
+    navPanel.classList.remove("collapsed");
+    reopenTab.classList.remove("visible");
+    btnShowNav.style.display = "none";
+  }
+}
+
+/* =======================================================================
+   SUBMIT & SCORING
+   ======================================================================= */
+function konfirmasiKirim(){
+  const belum = TOTAL_SOAL - QUESTIONS.filter(q=>isAnswered(q)).length;
+  const pesan = belum > 0
+    ? "Masih ada "+belum+" soal yang belum dikerjakan.\n\nApakah kamu yakin ingin mengirim jawaban sekarang?"
+    : "Semua soal sudah dikerjakan.\n\nKirim jawaban sekarang? Setelah dikirim, jawaban tidak dapat diubah lagi.";
+  if(confirm(pesan)){
+    finishTest(false);
+  }
+}
+
+function autoSubmit(){
+  if(submitted) return;
+  alert("⏰ Waktu try out telah habis! Soal akan ditutup otomatis dan sistem akan menampilkan hasil.");
+  finishTest(true);
+}
+
+let hasilAkhir = { benar:0, salah:0, skor:0, waktuPakai:0 };
+
+function finishTest(otomatis){
+  if(submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+
+  let benar = 0;
+  QUESTIONS.forEach(q=>{
+    if(cekJawabanBenar(q)) benar++;
+  });
+  const salah = TOTAL_SOAL - benar;
+  const skor = Math.round((benar / TOTAL_SOAL) * 100);
+  const waktuPakai = DURASI_DETIK - timeLeft;
+
+  hasilAkhir = { benar, salah, skor, waktuPakai };
+  tampilkanHasil();
+}
+
+function cekJawabanBenar(q){
+  const a = answers[q.no];
+  if(a === undefined || a === null) return false;
+  if(q.type === "pg"){
+    return a === q.correct;
+  } else if(q.type === "mcma"){
+    if(!Array.isArray(a)) return false;
+    const sa = [...a].sort().join(",");
+    const sc = [...q.correct].sort().join(",");
+    return sa === sc;
+  } else if(q.type === "kategori"){
+    if(!Array.isArray(a) || a.length !== q.statements.length) return false;
+    return q.statements.every((st,i)=> a[i] === st.correct);
+  }
+  return false;
+}
+
+function tampilkanHasil(){
+  switchScreen("screen-result");
+  document.getElementById("result-nama-sub").textContent = "Kerja bagus, "+peserta.nama+"! Berikut hasil try out kamu.";
+  document.getElementById("score-circle").style.setProperty("--pct", hasilAkhir.skor);
+  document.getElementById("score-txt").textContent = hasilAkhir.skor;
+  document.getElementById("stat-benar").textContent = hasilAkhir.benar;
+  document.getElementById("stat-salah").textContent = hasilAkhir.salah;
+  const m = Math.floor(hasilAkhir.waktuPakai/60);
+  const s = hasilAkhir.waktuPakai%60;
+  document.getElementById("stat-waktu").textContent = String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");
+}
+
+/* =======================================================================
+   SERTIFIKAT PDF (jsPDF)
+   ======================================================================= */
+function downloadSertifikat(){
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ orientation:"landscape", unit:"mm", format:"a4" });
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+
+  doc.setDrawColor(194,87,10);
+  doc.setLineWidth(2.2);
+  doc.rect(8,8,W-16,H-16);
+  doc.setDrawColor(242,153,74);
+  doc.setLineWidth(0.6);
+  doc.rect(12,12,W-24,H-24);
+
+  doc.setTextColor(194,87,10);
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(26);
+  doc.text("SERTIFIKAT HASIL TRY OUT", W/2, 32, { align:"center" });
+
+  doc.setFontSize(15);
+  doc.setTextColor(226,113,29);
+  doc.text("TKA BAHASA INDONESIA TAHUN 2026", W/2, 41, { align:"center" });
+
+  doc.setDrawColor(251,220,184);
+  doc.setLineWidth(1);
+  doc.line(W/2-60, 46, W/2+60, 46);
+
+  doc.setFont("helvetica","normal");
+  doc.setFontSize(11);
+  doc.setTextColor(90,90,90);
+  doc.text("Diberikan kepada:", W/2, 58, { align:"center" });
+
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(22);
+  doc.setTextColor(28,53,80);
+  doc.text(peserta.nama.toUpperCase(), W/2, 70, { align:"center" });
+
+  doc.setFont("helvetica","normal");
+  doc.setFontSize(11);
+  doc.setTextColor(90,90,90);
+  doc.text("NISN: "+peserta.nisn+"   |   Asal Sekolah: "+peserta.sekolah, W/2, 78, { align:"center" });
+
+  doc.setFontSize(12);
+  doc.text("Atas partisipasinya dalam pelaksanaan", W/2, 90, { align:"center" });
+  doc.text("Try Out Tes Kemampuan Akademik (TKA) Bahasa Indonesia Tahun 2026", W/2, 97, { align:"center" });
+  doc.text("dengan hasil sebagai berikut:", W/2, 104, { align:"center" });
+
+  const boxY = 112;
+  doc.setFillColor(253,240,225);
+  doc.roundedRect(W/2-70, boxY, 140, 30, 4, 4, "F");
+  doc.setDrawColor(251,220,184);
+  doc.roundedRect(W/2-70, boxY, 140, 30, 4, 4, "S");
+
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(28);
+  doc.setTextColor(194,87,10);
+  doc.text(String(hasilAkhir.skor), W/2-46, boxY+20, { align:"center" });
+  doc.setFontSize(9);
+  doc.setFont("helvetica","normal");
+  doc.text("NILAI AKHIR", W/2-46, boxY+26, { align:"center" });
+
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(16);
+  doc.setTextColor(63,180,122);
+  doc.text(hasilAkhir.benar+" BENAR", W/2, boxY+14, { align:"center" });
+  doc.setTextColor(224,82,82);
+  doc.text(hasilAkhir.salah+" SALAH", W/2, boxY+24, { align:"center" });
+
+  const mm = Math.floor(hasilAkhir.waktuPakai/60);
+  const ss = hasilAkhir.waktuPakai%60;
+  doc.setFont("helvetica","bold");
+  doc.setFontSize(14);
+  doc.setTextColor(242,153,74);
+  doc.text(String(mm).padStart(2,"0")+":"+String(ss).padStart(2,"0"), W/2+46, boxY+20, { align:"center" });
+  doc.setFontSize(9);
+  doc.setFont("helvetica","normal");
+  doc.text("WAKTU DIPAKAI", W/2+46, boxY+26, { align:"center" });
+
+  const tanggal = new Date().toLocaleDateString("id-ID", { day:"numeric", month:"long", year:"numeric" });
+  doc.setFontSize(10);
+  doc.setTextColor(90,90,90);
+  doc.text("Dicetak secara otomatis oleh sistem pada "+tanggal, W/2, H-22, { align:"center" });
+
+  doc.setFontSize(9);
+  doc.setTextColor(150,150,150);
+  doc.text("Try Out TKA Bahasa Indonesia 2026 — Simulasi Ujian Berbasis Web", W/2, H-16, { align:"center" });
+
+  const namaFile = "Sertifikat_TryOut_TKA_BahasaIndonesia_"+peserta.nama.replace(/\s+/g,"_")+".pdf";
+  doc.save(namaFile);
+}
+
+/* =======================================================================
+   DOWNLOAD SOAL TRY OUT (PDF) — naskah soal + kunci jawaban
+   ======================================================================= */
+function escAttr(str){
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function buildQuestionBlockHtml(q){
+  let body = "";
+  if(q.type === "pg" || q.type === "mcma"){
+    body = q.options.map(opt=>
+      '<div class="pdf-opt"><span class="pdf-opt-mark">'+opt.id.toUpperCase()+'</span><span class="pdf-opt-text">'+escAttr(opt.text)+'</span></div>'
+    ).join("");
+  } else if(q.type === "kategori"){
+    body = q.statements.map((st,i)=>
+      '<div class="pdf-kat-row"><span class="pdf-kat-text">'+String.fromCharCode(97+i)+'. '+escAttr(st.text)+'</span><span class="pdf-kat-choice">[ BENAR ]&nbsp;&nbsp;&nbsp;[ SALAH ]</span></div>'
+    ).join("");
+  }
+  const badge = q.type === "pg" ? "Pilihan Ganda" : q.type === "mcma" ? "PG Kompleks (jawaban bisa lebih dari satu)" : "PG Kompleks Kategori (Benar/Salah)";
+  return '<div class="pdf-question-block">'+
+    '<div class="pdf-q-top"><span class="pdf-q-num">SOAL '+q.no+'</span><span class="pdf-q-instr">'+escAttr(q.instruksi)+' &mdash; ('+badge+')</span></div>'+
+    '<div class="pdf-q-text">'+escAttr(q.text)+'</div>'+
+    body+
+    '</div>';
+}
+
+function buildStimulusBlockHtml(q){
+  const groupQs = QUESTIONS.filter(x=>x.group===q.group);
+  const noAwal = groupQs[0].no, noAkhir = groupQs[groupQs.length-1].no;
+  const rentang = noAwal === noAkhir ? String(noAwal) : (noAwal+' S.D. '+noAkhir);
+  return '<div class="pdf-stimulus-block">'+
+    '<span class="pdf-stim-title">📖 BACAAN UNTUK SOAL NOMOR '+rentang+'</span>'+
+    '<div class="pdf-stim-text">'+escAttr(q.stimulus)+'</div>'+
+    '</div>';
+}
+
+async function downloadSoalPDF(){
+  const overlay = document.getElementById("pdf-overlay");
+  overlay.classList.add("active");
+
+  try{
+    await document.fonts.load("400 20px 'Poppins'");
+    await document.fonts.load("700 20px 'Poppins'");
+    await document.fonts.ready;
+  }catch(e){ }
+
+  await new Promise(r=>setTimeout(r, 150));
+
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF({ unit:"mm", format:"a4" });
+  const pageW = 210, marginX = 12, contentWmm = pageW - marginX*2;
+  const marginTop = 14, pageHmax = 297 - 14;
+  let cursorY = marginTop;
+
+  const renderWidthPx = 720;
+  const pxPerMm = renderWidthPx / contentWmm;
+
+  const stage = document.createElement("div");
+  stage.id = "pdf-render-temp";
+  stage.style.width = renderWidthPx + "px";
+  document.body.appendChild(stage);
+
+  async function renderBlockToPdf(html, gapAfter){
+    stage.innerHTML = html;
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    const canvas = await html2canvas(stage, { scale:2.2, backgroundColor:"#ffffff", useCORS:true });
+    const cssHeightPx = canvas.height / 2.2;
+    const imgHmm = cssHeightPx / pxPerMm;
+
+    if(cursorY + imgHmm > pageHmax){
+      doc.addPage();
+      cursorY = marginTop;
+    }
+    const imgData = canvas.toDataURL("image/jpeg", 0.95);
+    doc.addImage(imgData, "JPEG", marginX, cursorY, contentWmm, imgHmm);
+    cursorY += imgHmm + (gapAfter !== undefined ? gapAfter : 5);
+  }
+
+  // ---- Blok sampul + petunjuk ----
+  const coverHtml =
+    '<div class="pdf-cover">'+
+      '<div class="pdf-band">'+
+        '<h1>NASKAH SOAL</h1>'+
+        '<h2>TRY OUT TKA BAHASA INDONESIA TAHUN 2026</h2>'+
+        '<p>Jumlah Soal: 35 Butir &bull; Waktu: 75 Menit</p>'+
+      '</div>'+
+      '<div class="pdf-petunjuk">'+
+        '<b>PETUNJUK UMUM:</b><br>'+
+        '1. Tulis nama, NISN, dan asal sekolah pada lembar jawaban.<br>'+
+        '2. Bacalah setiap teks dan soal dengan teliti sebelum menjawab.<br>'+
+        '3. Soal terdiri atas tiga bentuk: Pilihan Ganda, PG Kompleks (jawaban bisa lebih dari satu),'+
+        ' dan PG Kompleks Kategori (menentukan BENAR/SALAH pada setiap pernyataan).<br>'+
+        '4. Beberapa soal berbentuk Soal Grup yang menggunakan satu teks bacaan/stimulus yang sama.<br>'+
+        '5. Kunci jawaban tercantum pada halaman terakhir naskah ini.'+
+      '</div>'+
+    '</div>';
+  await renderBlockToPdf(coverHtml, 6);
+
+  // ---- Blok tiap soal (+ stimulus jika soal grup baru) ----
+  let lastGroup = null;
+  for(const q of QUESTIONS){
+    if(q.group && q.group !== lastGroup){
+      lastGroup = q.group;
+      await renderBlockToPdf(buildStimulusBlockHtml(q), 3);
+    }
+    await renderBlockToPdf(buildQuestionBlockHtml(q), 5);
+  }
+
+  // ---- Blok kunci jawaban ----
+  doc.addPage();
+  cursorY = marginTop;
+  const kunciItems = QUESTIONS.map(q=>{
+    let jawabanTxt = "";
+    if(q.type === "pg"){ jawabanTxt = q.correct.toUpperCase(); }
+    else if(q.type === "mcma"){ jawabanTxt = q.correct.map(c=>c.toUpperCase()).join(", "); }
+    else if(q.type === "kategori"){ jawabanTxt = q.statements.map(st=> st.correct ? "B" : "S").join("-"); }
+    return '<div class="pdf-kunci-item"><span>'+q.no+'.</span><b>'+jawabanTxt+'</b></div>';
+  }).join("");
+  const kunciHtml = '<div><div class="pdf-kunci-title">KUNCI JAWABAN</div><div class="pdf-kunci-grid">'+kunciItems+'</div></div>';
+  await renderBlockToPdf(kunciHtml, 0);
+
+  document.body.removeChild(stage);
+  doc.save("Naskah_Soal_TryOut_TKA_Bahasa_Indonesia_2026.pdf");
+
+  overlay.classList.remove("active");
+}
+
+window.addEventListener("beforeunload", function(e){
+  if(document.getElementById("screen-quiz").classList.contains("active") && !submitted){
+    e.preventDefault();
+    e.returnValue = "";
+  }
+});
+
+/* =======================================================================
+   PROTEKSI ANTI COPY-PASTE SOAL
+   Mencegah siswa menyalin (copy), memotong (cut), klik kanan, atau
+   menyeleksi teks soal & bacaan pada layar pengerjaan (#screen-quiz).
+   Form data diri (nama/NISN/sekolah) tetap bisa diketik & ditempel normal.
+   ======================================================================= */
+(function(){
+  const quizPanel = document.getElementById("screen-quiz");
+
+  // Blokir klik kanan, copy, cut, dan seleksi teks HANYA di area soal
+  ["contextmenu","copy","cut","selectstart","dragstart"].forEach(evt=>{
+    quizPanel.addEventListener(evt, function(e){
+      // Jangan blokir jika target adalah input/textarea (jaga-jaga fitur masa depan)
+      const tag = (e.target.tagName || "").toLowerCase();
+      if(tag === "input" || tag === "textarea") return;
+      e.preventDefault();
+      return false;
+    });
+  });
+
+  // Blokir shortcut keyboard umum untuk copy/cut/print/simpan/lihat sumber
+  // saat layar soal sedang aktif
+  document.addEventListener("keydown", function(e){
+    if(!quizPanel.classList.contains("active")) return;
+    const key = (e.key || "").toLowerCase();
+    const ctrlOrCmd = e.ctrlKey || e.metaKey;
+    if(ctrlOrCmd && ["c","x","u","s","p","a"].includes(key)){
+      e.preventDefault();
+      return false;
+    }
+    // Blokir tombol PrintScreen (tidak 100% efektif, tapi mencegah niat sederhana)
+    if(key === "printscreen"){
+      e.preventDefault();
+      return false;
+    }
+  });
+})();
+</script>
+</body>
+</html>
